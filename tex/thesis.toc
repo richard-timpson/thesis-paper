@@ -1,7 +1,7 @@
-\contentsline {chapter}{\uppercase {Abstract}}{ii}% 
-\contentsline {chapter}{LIST OF FIGURES}{v}% 
-\contentsline {chapter}{LIST OF TABLES}{vi}% 
-\contentsline {chapter}{\uppercase {Notation and Symbols}}{vii}% 
+\contentsline {chapter}{\uppercase {Abstract}}{iii}% 
+\contentsline {chapter}{LIST OF FIGURES}{vi}% 
+\contentsline {chapter}{LIST OF TABLES}{vii}% 
+\contentsline {chapter}{\uppercase {Notation and Symbols}}{viii}% 
 \unhbox \voidb@x \\[-1.2ex] \kern -1.5em\contentsline {}{\textbf {CHAPTERS}}{}
 \contentsline {chapter}{\numberline {1.}\hyphenpenalty =10000\exhyphenpenalty =10000\relax \linepenalty =0 \uppercase {The First}\global \uuthesis@needtocspacetrue }{1}% 
 \ifuuthesis@needtocspace \vspace {\uuthesis@chaptersectionspace } \fi \global \uuthesis@needtocspacefalse 
@@ -36,4 +36,3 @@
 \contentsline {chapter}{\numberline {A.}\hyphenpenalty =10000\exhyphenpenalty =10000\relax \linepenalty =0 \uppercase {The First}\global \uuthesis@needtocspacetrue }{19}% 
 \contentsline {chapter}{\numberline {B.}\hyphenpenalty =10000\exhyphenpenalty =10000\relax \linepenalty =0 \uppercase {The Second}\global \uuthesis@needtocspacetrue }{20}% 
 \contentsline {chapter}{\numberline {C.}\hyphenpenalty =10000\exhyphenpenalty =10000\relax \linepenalty =0 \uppercase {The Third}\global \uuthesis@needtocspacetrue }{21}% 
-\contentsline {chapter}{REFERENCES}{24}% 
