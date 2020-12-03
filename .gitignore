@@ -1,0 +1,9 @@
+*.blg
+*.dvi
+*.dw
+*.ilg
+*.log
+*.o
+*.ser
+*.tmp
+*.old
