@@ -2,8 +2,8 @@ PWD /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex
 INPUT /usr/local/texlive/2019/texmf.cnf
 INPUT /usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.tex
-OUTPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.log
+INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/thesis.tex
+OUTPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/thesis.log
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/uuthesis2e.cls
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/uuthesis2e.cls
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/Chicago.clo
@@ -190,8 +190,8 @@ INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/dissertat
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/dissertationapproval.sty
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/mythesis.sty
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/mythesis.sty
-INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.aux
-INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.aux
+INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/thesis.aux
+INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/thesis.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/chap1.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/chap1.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/chap2.aux
@@ -206,7 +206,7 @@ INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/appb.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/appb.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/appc.aux
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/appc.aux
-OUTPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.aux
+OUTPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/thesis.aux
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplr7t.tfm
@@ -262,7 +262,6 @@ INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm1
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmb7m.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmb7m.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmb7m.tfm
@@ -279,9 +278,6 @@ INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
 INPUT /usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/adobe/palatino/pplr7t.vf
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplr8r.tfm
-INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.toc
-INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.toc
-OUTPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.toc
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/adobe/palatino/pplb7t.vf
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplb8r.tfm
 INPUT /Users/richardtimpson/Documents/Research/thesis/thesis-paper/tex/sample-thesis-0.lof
