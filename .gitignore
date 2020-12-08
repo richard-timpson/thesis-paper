@@ -1,4 +1,11 @@
 *.blg
+*.aux
+*.bbl
+*.idx
+*.ind
+*.toc
+*.lof
+*.lot
 *.dvi
 *.dw
 *.ilg
