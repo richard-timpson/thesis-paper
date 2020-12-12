@@ -1,11 +1,93 @@
-\chapter{How to input figures}\label{ch:ch2}
+\chapter{Background}\label{ch:ch2}
+The background section needs to include information relevant research and clearly set up a research problem. 
 
-Here shows to insert figures and cite figures in the main text.
+\section{Expressive Performance Generation}
+Define expressive performance generation (EPG) at a technical level (data features). Give background into how it fits into MIR research. 
+\begin{itemize}
+    \item Define a score and Performance
+    \begin{itemize}
+        \item Explain possible features for both score and performance
+        \item \rtodo[,inline]{Create (find) figures for score and performance}
+    \end{itemize}
+    \item Explain how expressive performance generation fits into music generation research
+    \begin{itemize}
+        \item Generation as subset of MIR research 
+        \item \rtodo[,inline]{Create graph showing (or referencing other graphs) of where performance generation fits into music generation as a whole}
+    \end{itemize}
+    \item Papers to cite 
+    \begin{itemize}
+        \item This time with feeling \cite{oore2020time}
+        \item Deep learning for music generation survey \cite{ji2020comprehensive}
+    \end{itemize}
+\end{itemize}
 
-\begin{figure}[h!]
-\centering
-% \includegraphics[width = 0.85\linewidth]{./figs/ch2/lena.bmp}
-\caption{Picture of Lena}
-\label{fig:2-fig1}
-\end{figure}
-Picture of lena is shown in Fig. \ref{fig:2-fig1}.
+\section{Transformers}
+Provide context to why transformers are important and the problems they've solved in nlp. 
+\begin{itemize}
+    \item Intuition behind transformers and why they are so powerful in sequence modeling
+    \item Attention is all you need paper \cite{vaswani2017attention}
+    \begin{itemize}
+        \item State of the art in translation tasks
+        \item New architecture for sequence modeling using only attention. No recurrent network
+    \end{itemize}
+    \item BERT \cite{devlin2018bert}
+    \begin{itemize}
+        \item Transformer Encoder only 
+        \item Self-supervised learning and pre-training. Includes having a simple multi-layer perceptron at the end to make it useful
+    \end{itemize}
+    \item Music Transformer \cite{huang2018music}
+    \begin{itemize}
+        \item Builds off of This Time with Feeling\cite{oore2020time} paper. Both composition and performance generation at the same time 
+        \item Implements full transformer architecture 
+        \item Achieves better results than LSTM
+    \end{itemize}
+    \item Question: Can a transformer model be applied to only performance generation with an encoder only architecture to achieve better results than current state of the art models?. Intuition says yes given the results from Music Transformer. 
+\end{itemize}
+
+\section{Existing EPG models}
+\begin{itemize}
+    \item KTH system \cite{friberg2006overview}. 
+    \item YQX. A bayesian network that models timing, dynamics, and articulation \cite{widmer2009yqx}. Won the 2008 RenCon contest. 
+    \item Basis Function Models \cite{eduardo2018computational} (charcon phd thesis)
+    \begin{itemize}
+        \item Linear Basis Functions. Uses Least Squares regression and Bayesian models with about the same performance
+        \item Non-Linear Basis Functions. Uses standard feed forward network. FFNN perform better than Linear models. Also uses an RNN. \rtodo{This needs more exploration. Lot of possibilities for future work}
+    \end{itemize}
+    \item Giraldo and Ramirez use several different ML algorithms, including Decision Trees, k-NN, SVM's, and FFNN to build an expressive performance generation system for improvisational Jazz guitar \cite{giraldo2016machine}. 
+    \item Moulieras and Pachet use a Maximum Entropy model to infer the underlying distribution of expressive performance and build a generation system trained from a mix of popular music. Their expressive model outperforms base models in listening tests \cite{moulieras2016maximum}. 
+    \item Jeong builds two versions of virtuosoNet, one using a recurrent hierarchical attention network (HAN) \cite{jeong2019virtuosonet}, and another using a recurrent graph network \cite{jeong2019graph}. These models are built using a dataset order of magnitudes larger than other datasets and attempt to model the expressive performance feature of the pedal, which no other model does. The code for the models is also open source so it was chosen as the starting place for this work. \rtodo[,inline]{Add more papers and expand upon the existing research a bit more. Isn't completely necessary but will be good for my overall understanding}
+\end{itemize}
+
+\section{Datasets}
+\begin{itemize}
+    \item Talk about the fundamental limitations of gathering data for this problem, especially in relation to other fields \cite{friberg2006overview}. Because of this, the lack of high quality data is limited. 
+    \item The dataset used for the virtuosoNet \cite{jeong2019graph} \cite{jeong2019virtuosonet} will be the dataset used for the experiments. At the time the experiment started it was the largest publicly available dataset applicable to the EPG systems, and was chosen for use. A recent publication \cite{foscarin2020asap} builds off of the dataset used for the virtuosoNet with more sophisticated alignment and some extensions to the size (dataset is named ASAP). ASAP would be more appropriate for future use. 
+    \item One of the necessary data processing tasks for EPG is the alignment between the score and performance of a given piece. Because there is always an inherent interpretation of a composition by a performer \rtodo[,inline, noinlinepar, inlinewidth=8.2cm]{Reference this in the introduction}, there is no clear mapping between any given score and performance. It remains necessary to have some sort of alignment process to match each note in the performance with it's related position in the score. \rtodo[,inline]{This needs more research. Find relevant papers to cite, as well as show a diagram that makes it clear why alignment is necessary}.
+\end{itemize}
+
+\section{Evaluation}
+\begin{itemize}
+    \item Evaluation is particularly difficult for a problem like EPG because there is no "correct" interpretation of a score. However, there is at least a vaguely understood relationship between a score marking and how a performaner should use that marking within the context of a performance. For example, if a crescendo marking is used in a score, the performer should at the very least increase the volume of the performance relative to the current volume of the piece. The amount which the volume should increase or the rate at which it increases are not clearly defined, but the fact of the increase of volume itself is. This is the fundamental intuition behind the motivation to build computational models for expressive performance. Nonetheless, it still remains a difficult job to evaluate a given EPG model because of the ambiguity of what is "correct" or not.
+    \item Evaluation methods used so far in EPG models are broken into two categories, quantitative and qualitative. 
+    \item Quantitative: 
+    \begin{itemize}
+        \item This follows standard techniques for experimentation of evaluation of ML models in general. It usually involves calculating a numerical value for a models inference on a separate test data set that was not used for model training or model selection. \rtodo{Find reference for ML training and evaluation}. Common metrics for regression like problems are mean squared error (MSE) and the pearson correlation coefficient (R2). 
+        \item Due to the nature of EPG model evaluation mentioned above, it is not clear that "better" quantiative metric score for a given model over another indicates that the performance of the model is superior. \rtodo{Find section in Garcon survey that references this point}. 
+    \end{itemize}
+    \item Qualitative
+    \begin{itemize}
+        \item Qualitative evaluation methods involve gathering human feedback by playing performances of a given models performance to an audience and getting ratings or judgement of the model according to a predefined questionnare or survey method. The nature of these evaluation methods is not consistent in the current literature and remains a challenge for the field to solve in the future. \rtodo{Find section in Garcon survey that references this point}. 
+        \item \rtodo[, inline]{Conduct more research for reference on current methods for qualititative evaluation}
+    \end{itemize}
+\end{itemize}
+
+
+% Here shows to insert figures and cite figures in the main text.
+
+% \begin{figure}[h!]
+% \centering
+% % \includegraphics[width = 0.85\linewidth]{./figs/ch2/lena.bmp}
+% \caption{Picture of Lena}
+% \label{fig:2-fig1}
+% \end{figure}
+% Picture of lena is shown in Fig. \ref{fig:2-fig1}.

@@ -21,6 +21,13 @@
 
 % The lipsum package is just included to put dummy text in the document in order to demonstrate page headers and table of contents behavior. You should remove it once you begin writing your actual thesis or dissertation.
 \usepackage{lipsum}
+\usepackage{todonotes}
+\usepackage{xparse}
+% \setuptodonotes{textwidth=0.5}
+
+\setlength{\marginparwidth}{2cm}
+\NewDocumentCommand{\rtodo}{O{} m}{\todo[author=Richard #1]{#2}}
+\NewDocumentCommand{\vstodo}{O{} m}{\todo[author=Vivek #1]{#2}}
 
 % Title of your thesis
 \title{Title of your thesis}
@@ -63,7 +70,6 @@
 \abstract{\input{contents/abstract}}
 
 % The general audience abstract is required. There are currently no word limits.
-\abstractgenaud{\input{./contents/generalabstract} }
 
 \begin{document}
 % The following lines set up the front matter of your thesis or dissertation and are required to ensure proper formatting per the VT ETD standards. 
@@ -74,8 +80,8 @@
 % The list of figures and tables are now optional per the official ETD standards.  Unless you have a very good reason for removing them, you should leave these lists in the document. Comment them out to remove them.
 	\listoffigures
 	\listoftables
-	\input{contents/abbreviation} 
-    \printnomenclature %Creates a list of abbreviations. Comment out to remove it. 
+	% \input{contents/abbreviation} 
+    % \printnomenclature %Creates a list of abbreviations. Comment out to remove it. 
 
 % The following sets up the document for the main part of the thesis or dissertation. Do not comment out or remove this line.
 	\mainmatter
@@ -84,7 +90,9 @@
 	\input{contents/ch1_intro}
 	\input{contents/ch2}
 	\input{contents/ch3}
-    \input{contents/ch4}
+	\input{contents/ch4}
+	\input{contents/ch5}
+	\input{contents/ch6}
 	
 
 	% This is the standard bibtex file. Do not include the .bib extension in <bib_file_name>.

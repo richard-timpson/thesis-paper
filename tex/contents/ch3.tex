@@ -1,18 +1,16 @@
-\chapter{How to input tables}\label{ch:ch3}
+\chapter{Methods}\label{ch:ch3}
 
-Here shows how we could input the table.
+\section{Model and Experiments}
+\begin{itemize}
+    \item Due to the open-source nature of virtuosoNet project and its attempt to build a more cohesive EPG model by introducing the pedal as an expressive feature and training on a much larger dataset, we built off of this model. 
+    \item Because of the significant advances in other sequence modeling domains (such as NLP) and the indication of increased performance of another related task with the Music Transformer \cite{huang2018music}, the main question we want to answer is whether we can see similar increases in model performance by applying a Transformer ANN architecture to the problem domain. 
+    \item We will experiment with a transformer encoder only architecture similar to BERT. The problem includes a 1-1 to mapping between every note in the score and a related note in a performance. This is different than seq-2-seq modeling problem such as neural machine translation which maps a sequence of one length to another sequence of a different length, which is what the full Transformer architecture was intended for. The Transformer Encoder can be seen as as a large encoder that learns the best represenation for a given feature set. The model we'll build will use a simple FFNN that accepts the output of the transformer encoder to decode this representation and give the final feature set which is then used to create a performance. This is similar to the BERT architecture and it's intended application. \rtodo[,inline]{Come up with more detailed explanation of this modeling choice. Also create a visual diagram that explains the transformer encoder with the simple regression model sitting on top of it}
+    \item Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. Table doesn't have to have results but needs the general outline that will be used in the final paper}
+    
+\end{itemize}
 
-\begin{table}[h!]
-\caption{Registered pore morphology variables}
-\centering
-\begin{tabular}{|m{2cm}|m{2cm}|m{2cm}|m{2cm}|m{2cm}|m{2cm}|m{2cm}|} 
-\hline
-metric 1 & metric 2 & metric 3& metric 4 & metric 5 & metric 6 & metric 7\\
-\hline
-a & b&	c&d&e&f&g\\
-\hline
-\end{tabular}
-\label{tb:3-1}
-\end{table}
-
-You could also cite the table~\ref{tb:3-1} in this way.
+\section{Evaluation}
+\begin{itemize}
+    \item Quantitative: Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. Table doesn't have to have results but needs the general outline that will be used in the final paper}
+    \item \rtodo[,inline]{Come up with qualitative evaluation framework}
+\end{itemize}
