@@ -1,7 +1,17 @@
-\chapter{Results} \label{ch:ch4}
+\chapter{Experiments}\label{ch:ch4}
 
-\section{Quantitative}
-Add table with results of experiments along with explanations.
+\section{Model and Experiments}
+\begin{itemize}
+    \item Due to the open-source nature of virtuosoNet project and its attempt to build a more cohesive EPG model by introducing the pedal as an expressive feature and training on a much larger dataset, we built off of this model. 
+    \item Because of the significant advances in other sequence modeling domains (such as NLP) and the indication of increased performance of another related task with the Music Transformer \cite{huang2018music}, the main question we want to answer is whether we can see similar increases in model performance by applying a Transformer ANN architecture to the problem domain. 
+    \item We will experiment with a transformer encoder only architecture similar to BERT. The problem includes a 1-1 to mapping between every note in the score and a related note in a performance. This is different than seq-2-seq modeling problem such as neural machine translation which maps a sequence of one length to another sequence of a different length, which is what the full Transformer architecture was intended for. The Transformer Encoder can be seen as as a large encoder that learns the best representation for a given feature set. The model we'll build will use a simple FFNN that accepts the output of the transformer encoder to decode this representation and give the final feature set which is then used to create a performance. This is similar to the BERT architecture and it's intended application. \rtodo[,inline]{Come up with a more detailed explanation of this modeling choice. Also create a visual diagram that explains the transformer encoder with the simple regression model sitting on top of it}
+    \item Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. Table doesn't have to have results but needs the general outline that will be used in the final paper}
+    
+\end{itemize}
 
-\section{Qualitative}
-Add graphic with results of experiments as well as explanations.
+\section{Evaluation}
+\begin{itemize}
+    \item Quantitative: Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. The table doesn't have to have results but needs the general outline that will be used in the final paper}
+    \item Due to time and resource constraints, no sophisticated qualitative evaluation was conducted for the models. However, a personal evaluation was used during the entire model development process. \rtodo[,inline]{Talk about method used for personal analysis}
+    \item 
+\end{itemize}

@@ -1,16 +1,22 @@
-\chapter{Methods}\label{ch:ch3}
+\chapter{Related Work}\label{ch:ch3}
 
-\section{Model and Experiments}
+\section{Existing EPG models}
 \begin{itemize}
-    \item Due to the open-source nature of virtuosoNet project and its attempt to build a more cohesive EPG model by introducing the pedal as an expressive feature and training on a much larger dataset, we built off of this model. 
-    \item Because of the significant advances in other sequence modeling domains (such as NLP) and the indication of increased performance of another related task with the Music Transformer \cite{huang2018music}, the main question we want to answer is whether we can see similar increases in model performance by applying a Transformer ANN architecture to the problem domain. 
-    \item We will experiment with a transformer encoder only architecture similar to BERT. The problem includes a 1-1 to mapping between every note in the score and a related note in a performance. This is different than seq-2-seq modeling problem such as neural machine translation which maps a sequence of one length to another sequence of a different length, which is what the full Transformer architecture was intended for. The Transformer Encoder can be seen as as a large encoder that learns the best represenation for a given feature set. The model we'll build will use a simple FFNN that accepts the output of the transformer encoder to decode this representation and give the final feature set which is then used to create a performance. This is similar to the BERT architecture and it's intended application. \rtodo[,inline]{Come up with more detailed explanation of this modeling choice. Also create a visual diagram that explains the transformer encoder with the simple regression model sitting on top of it}
-    \item Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. Table doesn't have to have results but needs the general outline that will be used in the final paper}
-    
+    \item KTH system \cite{friberg2006overview}. A rule-based system for expressive performance. Rules are selected through a empirical process based on human feedback. 
+    \item YQX. A Bayesian network that models timing, dynamics, and articulation \cite{widmer2009yqx}. Won the 2008 RenCon contest. 
+    \item Basis Function Models \cite{eduardo2018computational}
+    \begin{itemize}
+        \item Linear Basis Functions. Uses Least Squares regression and Bayesian models with about the same performance
+        \item Non-Linear Basis Functions. Uses standard feed-forward network. FFNN perform better than Linear models. Also uses an RNN. \rtodo{This needs more exploration. Lot of possibilities for future work}
+    \end{itemize}
+    \item Giraldo and Ramirez use several different ML algorithms, including Decision Trees, k-NN, SVM's, and FFNN to build an expressive performance generation system for improvisational Jazz guitar \cite{giraldo2016machine}. 
+    \item Moulieras and Pachet use a Maximum Entropy model to infer the underlying distribution of expressive performance and build a generation system trained from a mix of popular music. Their expressive model outperforms base models in listening tests \cite{moulieras2016maximum}. 
+    \item Jeong builds two versions of virtuosoNet, one using a recurrent hierarchical attention network (HAN) \cite{jeong2019virtuosonet}, and another using a recurrent graph network \cite{jeong2019graph}. These models are built using a dataset order of magnitudes larger than other datasets and attempt to model the expressive performance feature of the pedal, which no other model does. The code for the models is also open source so it was chosen as the starting place for this work. \rtodo[,inline]{Add more papers and expand upon the existing research a bit more. Isn't completely necessary but will be good for my overall understanding}
 \end{itemize}
 
-\section{Evaluation}
+\section{Datasets}
 \begin{itemize}
-    \item Quantitative: Because we are using the same dataset used to train virtuosoNet, we will directly compare the performance a Transformer model to the existing virtuosoNet models using the same quantitative metric, MSE. \rtodo[,inline]{Come up with specific model experiments and comparison in a table. Table doesn't have to have results but needs the general outline that will be used in the final paper}
-    \item \rtodo[,inline]{Come up with qualitative evaluation framework}
+    \item Talk about the fundamental limitations of gathering data for this problem, especially in relation to other fields \cite{friberg2006overview}. Because of this, the lack of high-quality data is limited. 
+    \item The dataset used for the virtuosoNet \cite{jeong2019graph} \cite{jeong2019virtuosonet} will be the dataset used for the experiments. At the time the experiment started it was the largest publicly available dataset applicable to the EPG systems, and was chosen for use. A recent publication \cite{foscarin2020asap} builds off of the dataset used for the virtuosoNet with more sophisticated alignment and some extensions to the size (dataset is named ASAP). ASAP would be more appropriate for future use. 
+    \item One of the necessary data processing tasks for EMP is the alignment between the score and performance of a given piece. Because there is always an inherent interpretation of a composition by a performer \rtodo[,inline, noinlinepar, inlinewidth=8.2cm]{Reference this in the introduction}, there is no clear mapping between any given score and performance. It remains necessary to have some sort of alignment process to match each note in the performance with its related position in the score. \rtodo[,inline]{This needs more research. Find relevant papers to cite, as well as show a diagram that makes it clear why alignment is necessary}.
 \end{itemize}
