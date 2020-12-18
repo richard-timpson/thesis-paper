@@ -1,38 +1,69 @@
 \chapter{Background}\label{ch:ch2}
-Provide additional context to the problem of expressive musical performance (EMP) and the model domain we are applying (Transformers). Make sure to talk about the intricacies behind the musical side of the problem, given that it is generally not as well known in computer science, ML, and AI. Introduce the idea of music information retrieval (MIR) research, and how EMP fit's into this research. Provide sufficient detail at a high level detailing exactly what EMP is and why it is an interesting problem, specifically for machine learning. Cover what type of data is required for the problem.
+% Provide additional context to the problem of expressive musical performance (EMP) and the model domain we are applying (Transformers). Make sure to talk about the intricacies behind the musical side of the problem, given that it is generally not as well known in computer science, ML, and AI. Introduce the idea of music information retrieval (MIR) research, and how EMP fit's into this research. Provide sufficient detail at a high level detailing exactly what EMP is and why it is an interesting problem, specifically for machine learning. Cover what type of data is required for the problem.
 
-Cover the Transformer and why it is worth it to apply this model to the problem domain. 
+% Cover the Transformer and why it is worth it to apply this model to the problem domain. 
 
-\section{Expressive Performance Generation}
-Define expressive performance generation (EPG) at a technical level (data features). Give background into how it fits into MIR research. 
-\begin{itemize}
-    \item Define a Score and Performance
-    \begin{itemize}
-        \item Talk about differences between score and performance at a higher level.
-        \item Score includes symbolic representation of music and includes pitch, tempo (sometimes), timing, dynamics, and phrasing. 
-        \item Performance is an interpretation of a score. Includes the note pitches, tempo, timing, deviation, articulation, and dynamics. 
-        \item EPG is the task of creating a model which takes in a score (usually in the form of MusicXML) and outputs a performance (usually MIDI). \rtodo{Add reference to data format section}
-        \item Score to Performance Alignment. Necessary to the notes of a performance with their corresponding position in a score. Because performances are so varied, this is a non-trivial problem. 
-        \item Papers 
-        \begin{itemize}
-            \item Basis Mixer \cite{eduardo2018computational}
-            \item Computational Models for Expressiveness \cite{cancino2018computational}
-        \end{itemize}
-        \item \rtodo[,inline]{Add reference to later section which talks about feature engineering in detail}
-        \item \rtodo[,inline]{Create (find) figures for score and performance}
-    \end{itemize}
-    \item Explain how expressive performance generation fits into music generation research
-    \begin{itemize}
-        \item Generation as subset of MIR research 
-        \item Different components of generation. Composition, performance, and synthesis. 
-        \item \rtodo[,inline]{Create graph showing (or referencing other graphs) of where performance generation fits into music generation as a whole}
-        \item Papers 
-        \begin{itemize}
-            \item This time with feeling \cite{oore2020time}
-            \item Deep learning for music generation survey \cite{ji2020comprehensive}
-        \end{itemize}
-    \end{itemize}
-\end{itemize}
+There are two major research components that this project is based on. The first is the problem domain of expressive musical performance (EMP), and the second is the ML modeling domain of Transformers. We will introduce both of these components and provide context for what makes them interesting as a research project and why they are worth exploring together. We start first with an overview and definition of EMP, and then a summary of the Transformer. 
+
+\section{Expressive Musical Performance}
+EMP is a subset of the research field of Music Information Retrieval (MIR) \footnote{Widmer\cite{widmer2016getting} points out that MIR itself does not encompass the entire scope of computer music research, but that it is a good proxy to use when referring the field as a whole. We will operate under the same assumption} whose purpose is to use computational information to study, interpret, and gain a better understanding of the \emph{essence} of music itself. One of the most important components of music is how it is performed. Musical performance facilitates the communication of a musical composition created by an entity (most commonly a human) and the auditory and cognitive experience that is perceived by an audience. Each componet of the musical process can be viewed as a role rather than a person, as it is often the case that the composer, performer (and even the listener), are all the same person. Even if this is the case, each role in the musical process is unique in it's responsibility and musical experience. We are interested in the role of the performer - and more specifically, how the performer uses \emph{expression} to increase the quality of the musical experience.
+
+Perhaps the most important role of a musical performer is to add their own unique interpretation of a musical composition. This is especially important in the case of western classical music, wherein the performer(s) are encouraged to use their own musical knowledge and skill to add something of their own to the musical piece. This is due in part to several things. The first is the nature of the way the music is composed in the first place, given that the composer often intentionally leaves the aspects of the performance up the interpretation of the performer. The second is the inherently dynamic nature of the musical instruments used to generate the performance. They are created in such a way that the same piece of music, whether it be an entire composition, a musical phrase, or even a single note, can be played in almost an infinite amount of ways \rtodo{Find reference for differences in same performer and same piece}. Not only would the exact reproduction of a musical performance not be desirable from the listeners perspective, it would also be almost impossible to achieve from a performers perspective. This creates an inherent interpretation or expression in every performance of a composition. 
+
+There are a number of interesting research questions that arise when considering EMP from a computational perspective. They can be broadly categorized in two ways - the first as methods for EMP analysis, the second as methods for EMP generation \cite{cancino2018computational}. We are interested in the latter. More specifically, we are interested computational models that are used to generate musical performance, as opposed to models that are used to better the understanding of musical performance by analysing existing performances. \footnote{Of course the two problems are not unrelated and the advancement in one implies advancement in the other. However, it is still useful to conceptualize them as separate research questions that have a large overlap.}. In order to a build a model that can generate a musical performance, it is nessary to create a detailed abstract definition of EMP that the model can implement. Our focus will be on solo piano western classical music
+
+\subsection{Score and Performance}
+EMP usually involves two different components; a musical score which is a symbolic representation of a musical composition, and a musical performance which encodes different expressive parameters related to the performance. The most traditional interface that represents a score is sheet music, which exists in both physical and digitial form and is a graphical representation of a musical composition. Historically, the only way to represent a musical performance has been directly in audio generated by acoustic instruments. However, the advent of digital music has given rise to electronic synthesizers and data formats which allow for more diverse representations of musical performance. The most commonly used data format is MIDI, which is a file format and data transfer protocol which encodes different elements of a musical performance into an event based representation. 
+
+Before we dive into the details on the differences and similarities between a score and a performance, it is important that the reader has a sufficient level of musical structure and terminology. There are several key concepts that, although they may appear elementary, are necessary to understand and define in such a way that they can be useful when used with a computational model. These concepts are outlined in appendix \ref{ase:app_one_sect_1}
+
+\subsubsection{Score}
+
+A musical score contains all of the information that relates to a musical composition, and can be thought of as a higherical structure that presents information about the composition at different levels. The lowest level contains information about the pitch and timing of every single note, as well as optional information about how the note should be played. This can include information specific to instruments such as the bow direction of a violin, but for our purposes (dealing only with piano) we will consider this to be the articulation of each note, usually indicated by legato or staccato \rtodo[,inline]{Make sure to have some background information on articulation in the appendix}
+
+The middle level contains information related to certain substructures within the musical composition, which are usually expressed within a grouping of notes or measures. The most common score annotations at this level are dynamic markings which indicate whether to play a grouping of notes loud (Forte), soft (Piano), or to gradually increase or decrease the volume (crescendo or decrescendo). %\rtodo{Add correct notation markings) %
+Although dynamic markings are the most common at this level, it is also possible to see score markings for all other musical features, such as local tempo or articulation of a certain substructure. Perhaps the most important score marking at this level is that of a phrase, which is a marking that indicates that a group of notes should be interpreted as belonging to a singular musical idea and that each note should fit within the context of the phrase as a whole. A phrase can be expressed through all of the different aforementioned musical features, including the tempo, timing, dynamics, and articulation of the notes.
+
+The highest level contains meta information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
+
+\subsubsection{Peformance}
+An expressive musical performance contains most of the same musical information as does a score, but with one key difference; that is, that an expressive performance will deviate (or interpret) from the exact information that is presented in the score. For example, although a score may indicate a tempo of 120 BPM, it is highly unlikely that a given performer will perfectly adhere to this tempo throughoug the entirety of the piece. This is even more apparent if the score indicates a change in tempo somewhere in the composition. If a score indicates that the performance should speed up over a series of notes, there is no telling at what rate the tempo should increase. Some performers may choose to speed up at a fast rate and over a short period of time. Others may choose to increase the tempo at a slow rate and over a longer period of time. A single accelerando (a score indication to pick up the tempo) can result in either of these outcomes. 
+
+With that being said, a performance contains most of the same features related to a score, which include pitch, tempo, timing and articulation. Each of these expressive features will be measurable and absolute, whereas the score markings of these features can be viewed more as a suggestion than a rule. There a few additional features that are present in performances which are not in scores. The first we will refer to as deviation which is heavily related to timing. It  can be thought of as a numberical number which represents how far off the timing of a particular note deviates from it's "correct" position in the score. These micro-timing deviations present in musical performances are an essential part of expression. Without them, indicating that each note onset and offset is exactly in line with the it's marking in the score, performances sound robotic and mundane \rtodo{add reference and sample performance}. 
+
+The other important feature of performance that is not always present in a score applies specifically to the piano, and is the presence of a piano pedal. There are several different types of piano pedals, but the most common are the sustain pedal, which prolongs the duration of every note of the piano when activated, and the soft pedal which softens the sound of the entire piano. Although the effects of these pedals are directly related to the articulation and dynamics of the performance, their presence (or lack of) can be seen as a crucial component of piano performance. It is common for the sustain pedal to see active use in almost all modern piano performance, even when there doesn't exist any score marking indicating it's use. 
+
+\rtodo[,inline]{Add section and reference to the specifics of feature engineering related to both the score and the performance in the methods section}. 
+
+% Define expressive performance generation (EPG) at a technical level (data features). Give background into how it fits into MIR research. 
+% \begin{itemize}
+%     \item Define a Score and Performance
+%     \begin{itemize}
+%         \item Talk about differences between score and performance at a higher level.
+%         \item Score includes symbolic representation of music and includes pitch, tempo (sometimes), timing, dynamics, and phrasing. 
+%         \item Performance is an interpretation of a score. Includes the note pitches, tempo, timing, deviation, articulation, and dynamics. 
+%         \item EPG is the task of creating a model which takes in a score (usually in the form of MusicXML) and outputs a performance (usually MIDI). \rtodo{Add reference to data format section}
+%         \item Score to Performance Alignment. Necessary to the notes of a performance with their corresponding position in a score. Because performances are so varied, this is a non-trivial problem. 
+%         \item Papers 
+%         \begin{itemize}
+%             \item Basis Mixer \cite{eduardo2018computational}
+%             \item Computational Models for Expressiveness \cite{cancino2018computational}
+%         \end{itemize}
+%         \item \rtodo[,inline]{Add reference to later section which talks about feature engineering in detail}
+%         \item \rtodo[,inline]{Create (find) figures for score and performance}
+%     \end{itemize}
+%     \item Explain how expressive performance generation fits into music generation research
+%     \begin{itemize}
+%         \item Generation as subset of MIR research 
+%         \item Different components of generation. Composition, performance, and synthesis. 
+%         \item \rtodo[,inline]{Create graph showing (or referencing other graphs) of where performance generation fits into music generation as a whole}
+%         \item Papers 
+%         \begin{itemize}
+%             \item This time with feeling \cite{oore2020time}
+%             \item Deep learning for music generation survey \cite{ji2020comprehensive}
+%         \end{itemize}
+%     \end{itemize}
+% \end{itemize}
 
 \section{Data}
 A brief section about the data used for the problem. Introduce MusicXML and MIDI
