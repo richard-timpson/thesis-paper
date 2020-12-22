@@ -8,128 +8,80 @@ There are two major research components that this project is based on. The first
 \section{Expressive Musical Performance}
 EMP is a subset of the research field of Music Information Retrieval (MIR) \footnote{Widmer\cite{widmer2016getting} points out that MIR itself does not encompass the entire scope of computer music research, but that it is a good proxy to use when referring the field as a whole. We will operate under the same assumption} whose purpose is to use computational information to study, interpret, and gain a better understanding of the \emph{essence} of music itself \cite{widmer2016getting}. Perhaps the most well known MIR application is that of a musical recommendation system used by streaming services such as Spotify \footnote{\url{spotify.com}} to provide a personalized and unique experience for each user. However, as Widmer \cite{widmer2016getting} suggests, there are a number of other non-trivial problems that face the field and will require significant effort from the research community to properly understand. A proper understanding of musical performance is one of them. 
 
-MIR tasks can be broadly categorized in two ways - the first as computational methods for music analysis, and the second as computational methods for music generation. We are interested in the latter and it's application in musical performance. In order to study how musical performance generation (and more particularly \emph{expressive} musical performance generation) models work, it is necessary to gain a proper understanding of the entire computational musical generation process as whole. \citet{ji2020comprehensive} break the process down into 3 different components, with 4 different roles or agents that interact with that process. Figure \ref{fig:generation_process} shows each step in the process as well as the agents that participate \rtodo[,inline]{Try to get permission to reproduce image in the paper}. 
+MIR tasks can be broadly categorized in two ways - the first as computational methods for music analysis, and the second as computational methods for music generation. We are interested in the latter and its application in musical performance. In order to study how musical performance generation (and more particularly \emph{expressive} musical performance generation) models work, it is necessary to gain a proper understanding of the entire computational musical generation process as a whole. \citet{ji2020comprehensive} break the process down into 3 different components, with 4 different roles or agents that interact with that process. Figure \ref{fig:generation_process} shows each step in the process as well as the agents that participate \rtodo[,inline]{Try to get permission to reproduce the image in the paper}. 
 
 \begin{figure}
     \centering
     \missingfigure{Image that shows different components of musical generation process}
-    \caption{The first step of musical generation is composition, shown as a score in the figure. The second is performance, which is our area of interest. The third is the production of sound. Each different agent: composer, performer, instrument, and listener can be thought of as a separate computational model in the generation process}
+    \caption{The first step of musical generation is composition, shown as a score in the figure. The second is performance, which is our area of interest. The third is the production of sound. Each different agent: composer, performer, instrument, and listener, can be thought of as a separate computational model in the generation process}
     \label{fig:generation_process}
 \end{figure}
 
-A EMP model is analgous to the performer as show in \ref{fig:generation_process}, who takes as input a musical composition and produces as output a performance. It is the phenomena of musical expression that makes the performance generation process interesting. Musical expression can be thought of as the performers interpretation of a composition codified into different performance parameters that are intended to increase the quality of the musical experience by the final listener. Because the quality of a musical experience is highly subjective, there is no definition of what makes for a "correct" interpretation of a given composition \cite{cancino2018computational}. The subjective nature of EMP generation makes it a difficult problem to understand from a computational perspective. However, it also makes it highly intriguing research topic given that a clear understanding of the problem from a computational perspective will no doubt further our understanding of what exactly it is that makes music so subjective in the first place, and bring us one step closer to understanding music itself. 
+An EMP model is analogous to the performer as show in \ref{fig:generation_process}, who takes as input a musical composition and produces as output a performance. It is the phenomena of musical expression that makes the performance generation process interesting. Musical expression can be thought of as the performers' interpretation of a composition codified into different performance parameters that are intended to increase the quality of the musical experience by the final listener. Because the quality of a musical experience is highly subjective, there is no definition of what makes for a "correct" interpretation of a given composition \cite{cancino2018computational}. The subjective nature of EMP generation makes it a difficult problem to understand from a computational perspective. However, it also makes it a highly intriguing research topic given that a clear understanding of the problem from a computational perspective will no doubt further our understanding of what exactly it is that makes music so subjective in the first place, and bring us one step closer to understanding music itself. 
 
-To properly understand exactly what it is that constitutes expression in musical performance, it is necessary to provide a detailed description of the first two components of the generation process - namely, scores and performances. We refer the reader to appendix \ref{ase:app_one_sect_1} which provides some basic terminology and concepts that will be useful for grasping the following section \footnote{Most of the appendix material may seem elementary to those who already have a background in music or musical notation. However, we feel that is necessary to include if for no other reason than to provide a clear definition for our descriptions both in general and at detailed mathemetical level}. Due to the constraint of our data \rtodo{add reference} we focus only on western classical piano music. 
+To properly understand exactly what it is that constitutes expression in musical performance, it is necessary to provide a detailed description of the first two components of the generation process - namely, scores and performances. We refer the reader to appendix \ref{ase:app_one_sect_1} which provides some basic terminology and concepts that will be useful for grasping the following section \footnote{Most of the appendix material may seem elementary to those who already have a background in music or musical notation. However, we feel that is necessary to include if for no other reason than to provide a clear definition for our descriptions both in general and at detailed mathematical level}. Due to the constraint of our data \rtodo{add reference} we focus only on western classical piano music. 
 
-% Before we dive into the details on the differences and similarities between a score and a performance, it is important that the reader has a sufficient level of musical structure and terminology. There are several key concepts that, although they may appear elementary, are necessary to understand and define in such a way that they can be useful when used with a computational model. These concepts are outlined in appendix \ref{ase:app_one_sect_1}
-
-% One of the most important components of music is how it is performed. Musical performance facilitates the communication of a musical composition created by an entity (most commonly a human) and the auditory and cognitive experience that is perceived by an audience. Each componet of the musical process can be viewed as a role rather than a person, as it is often the case that the composer, performer (and even the listener), are all the same person. Even if this is the case, each role in the musical process is unique in it's responsibility and musical experience. We are interested in the role of the performer - and more specifically, how the performer uses \emph{expression} to increase the quality of the musical experience.
-
-% Perhaps the most important role of a musical performer is to add their own unique interpretation of a musical composition. This is especially important in the case of western classical music, wherein the performer(s) are given the freedom to use their own musical knowledge and skill to add something of their own to the musical piece. This is due in part to several things. The first is the nature of the way the music is composed in the first place, given that the composer often intentionally leaves the aspects of the performance up the interpretation of the performer. The second is the inherently dynamic nature of the musical instruments used to generate the performance. They are created in such a way that the same piece of music, whether it be an entire composition, a musical phrase, or even a single note, can be played in almost an infinite amount of ways \rtodo{Find reference for differences in same performer and same piece}. Not only would the exact reproduction of a musical performance not be desirable from the listeners perspective, it would also be almost impossible to achieve from a performers perspective. This creates an inherent interpretation or expression in every performance of a composition. 
-
-% There are a number of interesting research questions that arise when considering EMP from a computational perspective. They can be broadly categorized in two ways - the first as methods for EMP analysis, the second as methods for EMP generation. We are interested in the latter. More specifically, we are interested computational models that are used to generate musical performance, as opposed to models that are used to better the understanding of musical performance by analysing existing performances. \footnote{Of course the two problems are not unrelated and the advancement in one implies advancement in the other. However, it is still useful to conceptualize them as separate research questions that have a large overlap.}. In order to a build a model that can generate a musical performance, it is nessary to create a detailed abstract definition of EMP that the model can implement. Our focus will be on solo piano western classical music
-
-\subsection{Score and Performance}
-EMP usually involves two different components; a musical score which is a symbolic representation of a musical composition, and a musical performance which encodes different expressive parameters related to the performance. The most traditional interface that represents a score is sheet music, which exists in both physical and digitial form and is a graphical representation of a musical composition. Historically, the only way to represent a musical performance has been directly in audio generated by acoustic instruments. However, the advent of digital music has given rise to electronic synthesizers and data formats which allow for more diverse representations of musical performance. The most commonly used data format is MIDI, which is a file format and data transfer protocol which encodes different elements of a musical performance into an event based representation. 
-
-\subsubsection{Score}
-
-A musical score contains all of the information that relates to a musical composition, and can be thought of as a higherical structure that presents information about the composition at different levels. The lowest level contains information about the pitch and timing of every single note, as well as optional information about how the note should be played. This can include information specific to instruments such as the bow direction of a violin, but for our purposes (dealing only with piano) we will consider this to be the articulation of each note, usually indicated by legato or staccato \rtodo[,inline]{Make sure to have some background information on articulation in the appendix}
+\subsection{Scores}
+A musical score is a symbolic representation of a musical composition. The symbolic notation used to create musical scores can be thought of as a language used to express musical ideas and information.  It presents this information in a hierarchical structure with different levels of musical detail at each level. The lowest level contains information about the pitch and timing of every single note, as well as optional information about how the note should be played. This can include information specific to instruments such as the bow direction of a violin, but for our purposes (dealing only with piano) we will consider this to be the articulation of each note, usually indicated by legato or staccato \rtodo[,inline]{Make sure to have some background information on articulation in the appendix}
 
 The middle level contains information related to certain substructures within the musical composition, which are usually expressed within a grouping of notes or measures. The most common score annotations at this level are dynamic markings which indicate whether to play a grouping of notes loud (Forte), soft (Piano), or to gradually increase or decrease the volume (crescendo or decrescendo). %\rtodo{Add correct notation markings) %
 Although dynamic markings are the most common at this level, it is also possible to see score markings for all other musical features, such as local tempo or articulation of a certain substructure. Perhaps the most important score marking at this level is that of a phrase, which is a marking that indicates that a group of notes should be interpreted as belonging to a singular musical idea and that each note should fit within the context of the phrase as a whole. A phrase can be expressed through all of the different aforementioned musical features, including the tempo, timing, dynamics, and articulation of the notes.
 
-The highest level contains meta information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
+The highest level contains meta-information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
 
-\subsubsection{Peformance}
-An expressive musical performance contains most of the same musical information as does a score, but with one key difference; that is, that an expressive performance will deviate (or interpret) from the exact information that is presented in the score. For example, although a score may indicate a tempo of 120 BPM, it is highly unlikely that a given performer will perfectly adhere to this tempo throughoug the entirety of the piece. This is even more apparent if the score indicates a change in tempo somewhere in the composition. If a score indicates that the performance should speed up over a series of notes, there is no telling at what rate the tempo should increase. Some performers may choose to speed up at a fast rate and over a short period of time. Others may choose to increase the tempo at a slow rate and over a longer period of time. A single accelerando (a score indication to pick up the tempo) can result in either of these outcomes. 
+\subsection{Peformance}
+An expressive musical performance contains most of the same musical information as does a score, but with one key difference; that is, that an expressive performance will deviate (or interpret) from the exact information that is presented in the score. For example, although a score may indicate a tempo of 120 BPM, it is highly unlikely that a given performer will perfectly adhere to this tempo throughout the entirety of the piece. This is even more apparent if the score indicates a change in tempo somewhere in the composition. If a score indicates that the performance should speed up over a series of notes, there is no telling at what rate the tempo should increase. Some performers may choose to speed up at a fast rate and over a short period of time. Others may choose to increase the tempo at a slow rate and over a longer period of time. A single accelerando (a score indication to pick up the tempo) can result in either of these outcomes. 
 
-With that being said, a performance contains most of the same features related to a score, which include pitch, tempo, timing and articulation. Each of these expressive features will be measurable and absolute, whereas the score markings of these features can be viewed more as a suggestion than a rule. There a few additional features that are present in performances which are not in scores. The first we will refer to as deviation which is heavily related to timing. It  can be thought of as a numberical number which represents how far off the timing of a particular note deviates from it's "correct" position in the score. These micro-timing deviations present in musical performances are an essential part of expression. Without them, indicating that each note onset and offset is exactly in line with the it's marking in the score, performances sound robotic and mundane \rtodo{add reference and sample performance}. 
+With that being said, a performance contains most of the same features related to a score, which include pitch, tempo, timing and articulation. Each of these expressive features will be measurable and absolute, whereas the score markings of these features can be viewed more as a suggestion than a rule. There a few additional features that are present in performances which are not in scores. The first we will refer to as deviation which is heavily related to timing. It is typically represented as a numerical number which represents how far off the timing of a particular note deviates from it's "correct" position in the score. These micro-timing deviations present in musical performances are an essential part of expression. Without them, indicating that each note onset and offset is exactly in line with its marking in the score, performances sound robotic and mundane \rtodo{add a reference, graphic, and sample performance}. 
 
 The other important feature of performance that is not always present in a score applies specifically to the piano, and is the presence of a piano pedal. There are several different types of piano pedals, but the most common are the sustain pedal, which prolongs the duration of every note of the piano when activated, and the soft pedal which softens the sound of the entire piano. Although the effects of these pedals are directly related to the articulation and dynamics of the performance, their presence (or lack of) can be seen as a crucial component of piano performance. It is common for the sustain pedal to see active use in almost all modern piano performance, even when there doesn't exist any score marking indicating it's use. 
 
 \rtodo[,inline]{Add section and reference to the specifics of feature engineering related to both the score and the performance in the methods section}. 
 
-% Define expressive performance generation (EPG) at a technical level (data features). Give background into how it fits into MIR research. 
-% \begin{itemize}
-%     \item Define a Score and Performance
-%     \begin{itemize}
-%         \item Talk about differences between score and performance at a higher level.
-%         \item Score includes symbolic representation of music and includes pitch, tempo (sometimes), timing, dynamics, and phrasing. 
-%         \item Performance is an interpretation of a score. Includes the note pitches, tempo, timing, deviation, articulation, and dynamics. 
-%         \item EPG is the task of creating a model which takes in a score (usually in the form of MusicXML) and outputs a performance (usually MIDI). \rtodo{Add reference to data format section}
-%         \item Score to Performance Alignment. Necessary to the notes of a performance with their corresponding position in a score. Because performances are so varied, this is a non-trivial problem. 
-%         \item Papers 
-%         \begin{itemize}
-%             \item Basis Mixer \cite{eduardo2018computational}
-%             \item Computational Models for Expressiveness \cite{cancino2018computational}
-%         \end{itemize}
-%         \item \rtodo[,inline]{Add reference to later section which talks about feature engineering in detail}
-%         \item \rtodo[,inline]{Create (find) figures for score and performance}
-%     \end{itemize}
-%     \item Explain how expressive performance generation fits into music generation research
-%     \begin{itemize}
-%         \item Generation as subset of MIR research 
-%         \item Different components of generation. Composition, performance, and synthesis. 
-%         \item \rtodo[,inline]{Create graph showing (or referencing other graphs) of where performance generation fits into music generation as a whole}
-%         \item Papers 
-%         \begin{itemize}
-%             \item This time with feeling \cite{oore2020time}
-%             \item Deep learning for music generation survey \cite{ji2020comprehensive}
-%         \end{itemize}
-%     \end{itemize}
-% \end{itemize}
+\subsection{Data}
+The data required for EMP generation includes some digital form of representation of a score as well as a corresponding performance. Scores are typically given in the form of MusicXML, which is a text-based representation of a score. Performances could be directly be rendered as audio which is the process used by human performers with the use of an acoustic instrument. Instead of audio however, an intermediate data form, MIDI, is used to represent the performance. This better aligns with the generation process outlined in \ref{fig:generation_process}. In the full generation process, a separate model would be used to take the performance data in MIDI and synthesize that into raw audio which would be presented to the listener. Both data formats contain all of the required information to represent all of the musical components of both a score and a performance, including pitch, tempo, timing, articulation, deviation, and pedal. See appendix \ref{ase:app_one_sect_2} for more information on both MusicXML and MIDI. 
 
-\section{Data}
-A brief section about the data used for the problem. Introduce MusicXML and MIDI
-\begin{itemize}
-    \item MusicXML
-    \begin{itemize}
-        \item A text based representation of a musical score. 
-        \item Created as a way to standardize score data among different notation software. 
-        \item Useful for EMP research because of the standardized format. 
-        \item Contains all relevant information about the score and it's related features. \rtodo{Add reference to feature section}
-    \end{itemize}
-    \item MIDI 
-    \begin{itemize}
-        \item Event based protocol for digital representation of musical instruments. 
-        \item Used in a variety of ways, most commonly known for it's use in DAW software to represent easily editable tracks for music production. 
-        \item Can be synthesized in many different ways. 
-        \item Contains all of the needed information to represent a musical performace. \rtodo{Reference feature section}. 
-    \end{itemize}
-    
-\end{itemize}
+To build an EMP generation model, it is necessary to run both the score and performance through a data alignment process in which every note of the performance is mapped to it's corresponding position in the score. Given the highly dynamic nature of musical performance, it is a non-trivial task to run this alignment process for a set of scores and performances, especially if the task is performed by manual human annotation. There exist methods for both manual and automatic alignment. Due to the time-consuming nature of manual alignment and the need for large data sets to build higher quality models, automatic alignment algorithms are an active area of research. \rtodo[,inline]{Add reference to section which gives relevant research}
 
-
+\begin{figure}
+    \centering
+    \missingfigure{Show why score to performance alignment matching is necessary.}
+    \caption{Two performances of the same score can vary wildly in their tempo and timing. This makes it necessary to have a score to performance alignment for every performance. }
+    \label{fig:alignemnt}
+\end{figure}
 
 \section{Transformers}
-Provide context to why transformers are important and the problems they've solved in nlp. 
-\begin{itemize}
-    \item Intuition behind transformers and why they are so powerful in sequence modeling
-    \item Attention is all you need paper \cite{vaswani2017attention}
-    \begin{itemize}
-        \item State of the art in translation tasks
-        \item New architecture for sequence modeling using only attention. No recurrent network
-    \end{itemize}
-    \item BERT \cite{devlin2018bert}
-    \begin{itemize}
-        \item Transformer Encoder only 
-        \item Self-supervised learning and pre-training. Includes having a simple multi-layer perceptron at the end to make it useful
-    \end{itemize}
-    \item Music Transformer \cite{huang2018music}
-    \begin{itemize}
-        \item Builds off of This Time with Feeling\cite{oore2020time} paper. Both composition and performance generation at the same time 
-        \item Implements full transformer architecture 
-        \item Achieves better results than LSTM
-    \end{itemize}
-    \item Question: Can a transformer model be applied to only performance generation with an encoder only architecture to achieve better results than current state of the art models?. Intuition says yes given the results from Music Transformer. 
-\end{itemize}
+In his seminal paper, \citet{vaswani2017attention} introduces the Transformer architecture - an attention only sequence neural network that achieved new state of the art results in neural machine translation tasks. The Transformer came as an alternative Deep Learning modeling method to the Recurrent Neural Network (RNN) and its common adaption as a Long Short Term Memory (LSTM) network in sequence modeling problems, specifically in the domain of Natural Language Processing (NLP). There have been several adaptations of the original architecture proposed by \citet{vaswani2017attention} which have also achieved state of the art results in many NLP tasks, such as the General Language Understanding Evaluation (GLUE) benchmark \cite{devlin2018bert}\cite{wang2018glue}, reading comprehension, question answering, and textual entailment \cite{brown2020language} \footnote{\href{https://ruder.io/nlp-imagenet/}{Some} have called the Transformer and its applications the "ImageNet moment for NLP", in reference to the famous AlexNet Convolutional Neural Network architecture introduced in 2012 \cite{krizhevsky2017imagenet} that has spearheaded the rise in Deep Learning research ever since}. 
+
+The original Transformer relies soley on the use of attention \cite{bahdanau2014neural},more specifically self-attention \rtodo{find reference for self-attention}, mechanisms to build an encoder-decoder ANN that was used for a neural machine translation task, which involves translating text from one language to another using a single ANN model. The encoder-decoder architecture is a standard modeling choice for sequence to sequence modeling problems, which involve mapping a input sequence $x = \{x_1, x_2, x_3,...x_m\}$ of size m to an output sequence $y = \{y_1, y_2, y_3, ... y_m\}$ of size n. The encoder model will map the input sequence x into a hidden represenation sequence $z = \{z_1, z_2, x_3, ... z_n\}$ which the decoder will then use to generate the output sequence $y$. Historically, RNN based encoder-dedocer models were used to achieve state of the art results \rtodo{Find references}. \rtodo[,inline]{Add in definitions of LSTM, attention, self-attention, and how the Transformer uses self-attention to build an attention only NN}. 
+% \section{Transformers}
+% Provide context to why transformers are important and the problems they've solved in nlp. 
+% \begin{itemize}
+%     \item Intuition behind transformers and why they are so powerful in sequence modeling
+%     \item Attention is all you need paper \cite{vaswani2017attention}
+%     \begin{itemize}
+%         \item State of the art in translation tasks
+%         \item New architecture for sequence modeling using only attention. No recurrent network
+%     \end{itemize}
+%     \item BERT \cite{devlin2018bert}
+%     \begin{itemize}
+%         \item Transformer Encoder only 
+%         \item Self-supervised learning and pre-training. Includes having a simple multi-layer perceptron at the end to make it useful
+%     \end{itemize}
+%     \item Music Transformer \cite{huang2018music}
+%     \begin{itemize}
+%         \item Builds off of This Time with Feeling\cite{oore2020time} paper. Both composition and performance generation at the same time 
+%         \item Implements full transformer architecture 
+%         \item Achieves better results than LSTM
+%     \end{itemize}
+%     \item Question: Can a transformer model be applied to only performance generation with an encoder only architecture to achieve better results than current state of the art models?. Intuition says yes given the results from Music Transformer. 
+% \end{itemize}
 
 
 
 \section{Evaluation}
 \begin{itemize}
-    \item Evaluation is particularly difficult for a problem like EPG because there is no "correct" interpretation of a score. However, there is at least a vaguely understood relationship between a score marking and how a performaner should use that marking within the context of a performance. For example, if a crescendo marking is used in a score, the performer should at the very least increase the volume of the performance relative to the current volume of the piece. The amount which the volume should increase or the rate at which it increases are not clearly defined, but the fact of the increase of volume itself is. This is the fundamental intuition behind the motivation to build computational models for expressive performance. Nonetheless, it still remains a difficult job to evaluate a given EPG model because of the ambiguity of what is "correct" or not.
+    \item Evaluation is particularly difficult for a problem like EPG because there is no "correct" interpretation of a score. However, there is at least a vaguely understood relationship between a score marking and how a performer should use that marking within the context of a performance. For example, if a crescendo marking is used in a score, the performer should at the very least increase the volume of the performance relative to the current volume of the piece. The amount which the volume should increase or the rate at which it increases are not clearly defined, but the fact of the increase of volume itself is. This is the fundamental intuition behind the motivation to build computational models for expressive performance. Nonetheless, it still remains a difficult job to evaluate a given EPG model because of the ambiguity of what is "correct" or not.
     \item Evaluation methods used so far in EPG models are broken into two categories, quantitative and qualitative. 
     \item Quantitative: 
     \begin{itemize}
