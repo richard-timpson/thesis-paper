@@ -22,6 +22,7 @@
 % The lipsum package is just included to put dummy text in the document in order to demonstrate page headers and table of contents behavior. You should remove it once you begin writing your actual thesis or dissertation.
 \usepackage{lipsum}
 \usepackage{todonotes}
+\usepackage[numbers]{natbib}
 \usepackage{xparse}
 % \setuptodonotes{textwidth=0.5}
 
@@ -102,8 +103,8 @@
 
 	% This formats the chapter name to appendix to properly define the headers:
 	\input{contents/appendix}
+    \bibliographystyle{plainnat}  
     \bibliography{./reference/ref}
-    \bibliographystyle{ieeetr}  
 \end{document}
 
 
