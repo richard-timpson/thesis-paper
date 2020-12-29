@@ -1,18 +1,20 @@
 \chapter{Related Work}\label{ch:ch3}
+Given the understanding of both EMP and Transformers presented in section \ref{ch:ch2}, we'll now give an overview of the existing relevant research from which we will build upon. This will include a variety of different EMP models, as well as applications of the Transformer to MIR related problems. 
+\section{Existing Expressive Musical Performance Generation Models}
+EMP generation models fit into one of two categories, rule-based and data- based. Rule-based systems are built using a set of hardcoded rules which map were the first EMP models and provide much of the basis for other existing work. Data-driven models rely on Machine Learning (ML) and probablistic approaches 
 
-\section{Existing EPG models}
-\begin{itemize}
-    \item KTH system \cite{friberg2006overview}. A rule-based system for expressive performance. Rules are selected through a empirical process based on human feedback. 
-    \item YQX. A Bayesian network that models timing, dynamics, and articulation \cite{widmer2009yqx}. Won the 2008 RenCon contest. 
-    \item Basis Function Models \cite{eduardo2018computational}
-    \begin{itemize}
-        \item Linear Basis Functions. Uses Least Squares regression and Bayesian models with about the same performance
-        \item Non-Linear Basis Functions. Uses standard feed-forward network. FFNN perform better than Linear models. Also uses an RNN. \rtodo{This needs more exploration. Lot of possibilities for future work}
-    \end{itemize}
-    \item Giraldo and Ramirez use several different ML algorithms, including Decision Trees, k-NN, SVM's, and FFNN to build an expressive performance generation system for improvisational Jazz guitar \cite{giraldo2016machine}. 
-    \item Moulieras and Pachet use a Maximum Entropy model to infer the underlying distribution of expressive performance and build a generation system trained from a mix of popular music. Their expressive model outperforms base models in listening tests \cite{moulieras2016maximum}. 
-    \item Jeong builds two versions of virtuosoNet, one using a recurrent hierarchical attention network (HAN) \cite{jeong2019virtuosonet}, and another using a recurrent graph network \cite{jeong2019graph}. These models are built using a dataset order of magnitudes larger than other datasets and attempt to model the expressive performance feature of the pedal, which no other model does. The code for the models is also open source so it was chosen as the starting place for this work. \rtodo[,inline]{Add more papers and expand upon the existing research a bit more. Isn't completely necessary but will be good for my overall understanding}
-\end{itemize}
+% \begin{itemize}
+%     \item KTH system \cite{friberg2006overview}. A rule-based system for expressive performance. Rules are selected through a empirical process based on human feedback. 
+%     \item YQX. A Bayesian network that models timing, dynamics, and articulation \cite{widmer2009yqx}. Won the 2008 RenCon contest. 
+%     \item Basis Function Models \cite{eduardo2018computational}
+%     \begin{itemize}
+%         \item Linear Basis Functions. Uses Least Squares regression and Bayesian models with about the same performance
+%         \item Non-Linear Basis Functions. Uses standard feed-forward network. FFNN perform better than Linear models. Also uses an RNN. \rtodo{This needs more exploration. Lot of possibilities for future work}
+%     \end{itemize}
+%     \item Giraldo and Ramirez use several different ML algorithms, including Decision Trees, k-NN, SVM's, and FFNN to build an expressive performance generation system for improvisational Jazz guitar \cite{giraldo2016machine}. 
+%     \item Moulieras and Pachet use a Maximum Entropy model to infer the underlying distribution of expressive performance and build a generation system trained from a mix of popular music. Their expressive model outperforms base models in listening tests \cite{moulieras2016maximum}. 
+%     \item Jeong builds two versions of virtuosoNet, one using a recurrent hierarchical attention network (HAN) \cite{jeong2019virtuosonet}, and another using a recurrent graph network \cite{jeong2019graph}. These models are built using a dataset order of magnitudes larger than other datasets and attempt to model the expressive performance feature of the pedal, which no other model does. The code for the models is also open source so it was chosen as the starting place for this work. \rtodo[,inline]{Add more papers and expand upon the existing research a bit more. Isn't completely necessary but will be good for my overall understanding}
+% \end{itemize}
 
 \section{Datasets}
 \begin{itemize}

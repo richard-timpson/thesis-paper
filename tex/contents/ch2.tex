@@ -21,7 +21,7 @@ An EMP model is analogous to the performer as show in \ref{fig:generation_proces
 
 To properly understand exactly what it is that constitutes expression in musical performance, it is necessary to provide a detailed description of the first two components of the generation process - namely, scores and performances. We refer the reader to appendix \ref{ase:app_one_sect_1} which provides some basic terminology and concepts that will be useful for grasping the following section \footnote{Most of the appendix material may seem elementary to those who already have a background in music or musical notation. However, we feel that is necessary to include if for no other reason than to provide a clear definition for our descriptions both in general and at detailed mathematical level}. Due to the constraint of our data \rtodo{add reference} we focus only on western classical piano music. 
 
-\subsection{Scores}
+\subsection{Scores}\label{sec:scores}
 A musical score is a symbolic representation of a musical composition. The symbolic notation used to create musical scores can be thought of as a language used to express musical ideas and information.  It presents this information in a hierarchical structure with different levels of musical detail at each level. The lowest level contains information about the pitch and timing of every single note, as well as optional information about how the note should be played. This can include information specific to instruments such as the bow direction of a violin, but for our purposes (dealing only with piano) we will consider this to be the articulation of each note, usually indicated by legato or staccato \rtodo[,inline]{Make sure to have some background information on articulation in the appendix}
 
 The middle level contains information related to certain substructures within the musical composition, which are usually expressed within a grouping of notes or measures. The most common score annotations at this level are dynamic markings which indicate whether to play a grouping of notes loud (Forte), soft (Piano), or to gradually increase or decrease the volume (crescendo or decrescendo). %\rtodo{Add correct notation markings) %
@@ -29,7 +29,7 @@ Although dynamic markings are the most common at this level, it is also possible
 
 The highest level contains meta-information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
 
-\subsection{Peformance}
+\subsection{Peformance}\label{sec:performance}
 An expressive musical performance contains most of the same musical information as does a score, but with one key difference; that is, that an expressive performance will deviate (or interpret) from the exact information that is presented in the score. For example, although a score may indicate a tempo of 120 BPM, it is highly unlikely that a given performer will perfectly adhere to this tempo throughout the entirety of the piece. This is even more apparent if the score indicates a change in tempo somewhere in the composition. If a score indicates that the performance should speed up over a series of notes, there is no telling at what rate the tempo should increase. Some performers may choose to speed up at a fast rate and over a short period of time. Others may choose to increase the tempo at a slow rate and over a longer period of time. A single accelerando (a score indication to pick up the tempo) can result in either of these outcomes. 
 
 With that being said, a performance contains most of the same features related to a score, which include pitch, tempo, timing and articulation. Each of these expressive features will be measurable and absolute, whereas the score markings of these features can be viewed more as a suggestion than a rule. There a few additional features that are present in performances which are not in scores. The first we will refer to as deviation which is heavily related to timing. It is typically represented as a numerical number which represents how far off the timing of a particular note deviates from it's "correct" position in the score. These micro-timing deviations present in musical performances are an essential part of expression. Without them, indicating that each note onset and offset is exactly in line with its marking in the score, performances sound robotic and mundane \rtodo{add a reference, graphic, and sample performance}. 
@@ -50,7 +50,19 @@ To build an EMP generation model, it is necessary to run both the score and perf
     \label{fig:alignemnt}
 \end{figure}
 
-\subsection{Performance Evaluation}
+\subsection{Features}
+A common challenge facing any application of data-driven and ML-based research is to find the correct representation of data that a model interacts with. The choice of these data representations (or features in the ML terminology) have a large impact on the results of any EMP task, irregardless of the model. 
+
+\subsubsection{Score Features}
+
+There are some score features which are required for EMP models, which include the musical features at the lowest level of a score as explained in section \ref{sec:scores}. These are pitch and timing, and the duration of the notes. Mid-level features include concepts at the local level and have some music theoretic concepts, such as downbeat information of a given measure according to the time signature, or the tonality of a chord (tonic, dominant, etc). High-level features represent advanced music theoritic concepts that are more global to the entire piece, including abstract properties of the piece such as the emotion the piece should convey and how different sections of the piece relate to each to tell a complete story \cite{eduardo2018computational}. 
+
+Both the mid-level and high-level features are not necessarily required for every EMP model as the lower-level features are, and are not consistent across all EMP models. It still remains an open question as to which features should be extracted from the data that the model can learn from. The lack of consistency in these features is one of the reasons that evaluation of EMP generation models is so difficult, as explained in section \ref{sec:evaluation}. \rtodo[,inline]{determine if this is the right place or not to outline the mathematical definition of the score features. Belongs either here or in the relevant work section}. 
+
+\subsubsection{Performance Features}
+For western classical solo piano music, performance features are relatively simple compared to the score features as well as to other instruments. Most EMP models use the different aspects of a piano performance as explained in section \ref{sec:performance} for their data features, including the pitch, tempo, timing (or timing deviation), articulation, and pedal. Although at an abstract level the features are the same, there are different numerical methods used to describe each of the different aspects. These are presented in \rtodo[,inline]{Add reference to relevant work section that goes over the different elements. This information may belong better here and then referenced in the relevant work section}. 
+
+\subsection{Performance Evaluation}\label{sec:evaluation}
 One of the most important components of any computational model performing a task is that of evaluation. Evaluation is used to determine the quality of a model, and serves as a benchmark to compare different models used in the same task. Due to the inherently subjective nature of music and musical performance discussed in \ref{emp:sec}, evaluation is notioursly difficult to understand and perform correctly for EMP generation models \cite{cancino2018computational}. 
 
 Evaluation for computational models, specifically for EMP models, is typically categorized in two ways, quantitative evaluation and qualitatiative evaluation. Quantitative evaluation methods involve using numerical metrics which are computationally generated and deterministic. Qualitiative evaluation methods usually involve some form of human feedback and judgement presented in some standardized statistical measures. The key difference between quantitative and qualitiative is that qualitative methods are not as consisten and much more difficult to reproduce, given the reliance on the subjective feedback of human listeners. Traditionally, quantitative methods are preferred because of their consistency and reliability, In the case of EMP models however, qualitative evaluation methods may be even more important in gaining an understanding of what makes one model better than another. Finding good methods of evaluation is an active area of research in EMP \cite{cancino2018computational}. 
@@ -95,31 +107,3 @@ The original Transformer was built with machine translation in mind, but there a
 Similarly to BERT, the Generative Pre-trained Transformer (GPT) architecture\cite{radford2019language} is an adaptation of the original Transformer. The GPT architecture can be seen as a "decoder only" transformer, and is used as a general Language Model (LM). The task of a LM is simple; to predict the next word in a sequence of given words. Given that GPT is a generative model, it employes the decoder side of the Transformer, which is responsible for actually generating the text as part of the machine translation taks. Similarly to BERT, GPT models are pre-trained on massive amounts of data to learn a general representation of language, and used in conjuction with other models to perform various tasks. 
 
 Both BERT and GPT have significatly pushed the state of art in NLP and sequence modeling in general. Their success in the domain of language presents questions about their effectiveness in other related domains, such as music. 
-
-
-% The encoder model will map the input sequence x into a hidden representation sequence $z = \{z_1, z_2, x_3, ... z_m\}$ which the decoder will then use to generate the output sequence $y$ \cite{vaswani2017attention}. Historically, LSTM based encoder-decoder models were used to achieve state of the art results \rtodo{Find references}. However, these models typically have a fixed size the introduction of attention and self-attention mechanisms in conjuction LSTM architectureswith \rtodo[,inline]{Add in definitions of LSTM, attention, self-attention, and how the Transformer uses self-attention to build an attention only NN}. 
-% \section{Transformers}
-% Provide context to why transformers are important and the problems they've solved in nlp. 
-% \begin{itemize}
-%     \item Intuition behind transformers and why they are so powerful in sequence modeling
-%     \item Attention is all you need paper \cite{vaswani2017attention}
-%     \begin{itemize}
-%         \item State of the art in translation tasks
-%         \item New architecture for sequence modeling using only attention. No recurrent network
-%     \end{itemize}
-%     \item BERT \cite{devlin2018bert}
-%     \begin{itemize}
-%         \item Transformer Encoder only 
-%         \item Self-supervised learning and pre-training. Includes having a simple multi-layer perceptron at the end to make it useful
-%     \end{itemize}
-%     \item Music Transformer \cite{huang2018music}
-%     \begin{itemize}
-%         \item Builds off of This Time with Feeling\cite{oore2020time} paper. Both composition and performance generation at the same time 
-%         \item Implements full transformer architecture 
-%         \item Achieves better results than LSTM
-%     \end{itemize}
-%     \item Question: Can a transformer model be applied to only performance generation with an encoder only architecture to achieve better results than current state of the art models?. Intuition says yes given the results from Music Transformer. 
-% \end{itemize}
-
-
-
