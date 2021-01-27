@@ -1,109 +1,116 @@
-\chapter{Background}\label{ch:ch2}
-Provide additional context to the problem of expressive musical performance (EMP) and the model domain we are applying (Transformers). Make sure to talk about the intricacies behind the musical side of the problem, given that it is generally not as well known in computer science, ML, and AI. Introduce the idea of music information retrieval (MIR) research, and how EMP fit's into this research. Provide sufficient detail at a high level detailing exactly what EMP is and why it is an interesting problem, specifically for machine learning. Cover what type of data is required for the problem.
+\chapter{Background: Expressive Performance}\label{ch:ch2}
 
-Cover the Transformer and why it is worth it to apply this model to the problem domain. 
+There are two major research components upon which this project is based. The first is the problem domain of expressive musical performance, and the second is the ML modeling domain of Transformers. In this chapter, we will introduce and discuss EMP. In chapter \ref{ch:ch3} we'll do the same for the Transformer. 
 
-\section{Expressive Performance Generation}
-Define expressive performance generation (EPG) at a technical level (data features). Give background into how it fits into MIR research. 
-\begin{itemize}
-    \item Define a Score and Performance
-    \begin{itemize}
-        \item Talk about differences between score and performance at a higher level.
-        \item Score includes symbolic representation of music and includes pitch, tempo (sometimes), timing, dynamics, and phrasing. 
-        \item Performance is an interpretation of a score. Includes the note pitches, tempo, timing, deviation, articulation, and dynamics. 
-        \item EPG is the task of creating a model which takes in a score (usually in the form of MusicXML) and outputs a performance (usually MIDI). \rtodo{Add reference to data format section}
-        \item Score to Performance Alignment. Necessary to the notes of a performance with their corresponding position in a score. Because performances are so varied, this is a non-trivial problem. 
-        \item Papers 
-        \begin{itemize}
-            \item Basis Mixer \cite{eduardo2018computational}
-            \item Computational Models for Expressiveness \cite{cancino2018computational}
-        \end{itemize}
-        \item \rtodo[,inline]{Add reference to later section which talks about feature engineering in detail}
-        \item \rtodo[,inline]{Create (find) figures for score and performance}
-    \end{itemize}
-    \item Explain how expressive performance generation fits into music generation research
-    \begin{itemize}
-        \item Generation as subset of MIR research 
-        \item Different components of generation. Composition, performance, and synthesis. 
-        \item \rtodo[,inline]{Create graph showing (or referencing other graphs) of where performance generation fits into music generation as a whole}
-        \item Papers 
-        \begin{itemize}
-            \item This time with feeling \cite{oore2020time}
-            \item Deep learning for music generation survey \cite{ji2020comprehensive}
-        \end{itemize}
-    \end{itemize}
-\end{itemize}
+Expressive musical performance is a small subset of Music Information Retrieval research, which can be broadly categorized into two separate tasks: the first is developing computational methods for musical analysis, and the second is developing computational methods for music generation. We are interested in the latter, although it is worthwhile to note that there is a large overlap between the areas\footnote{Creating a performance generation system is useful for performance analysis as long as the generation system is interpretable. The same can be said in reverse. Analysis can provide insight to generation, and generation can provide insight to analysis}. In order to study how musical performance generation (and more particularly \emph{expressive} musical performance generation) models work, it is necessary to gain a proper understanding of the entire computational musical generation process as a whole. \citet{ji2020comprehensive} break the process down into 3 different components, with 4 different roles or agents that interact with that process. Figure \ref{fig:generation_process} shows each step in the process as well as the agents that participate \rtodo[, inline]{Try to get permission to reproduce the image in the paper}.
+
+\begin{figure}
+    \centering
+    \missingfigure{Image that shows different components of musical generation process}
+    \caption{The first step of musical generation is composition, shown as a score in the figure. The second is performance, which is our area of interest. The third is the production of sound. Each different agent: composer, performer, instrument, and listener, can be thought of as a separate computational model in the generation process}
+    \label{fig:generation_process}
+\end{figure}
+
+An EMP generation model is analogous to the performer as shown in \ref{fig:generation_process}, who takes as input a musical composition and produces as output a performance. It is the phenomena of musical expression that makes the performance generation process interesting. Musical expression can be thought of as the performers' interpretation of a composition codified into different performance parameters that are intended to contribute the quality of a musical experience \footnote{Because the quality of a musical experience is highly subjective, there is no definition of what makes for a "correct" interpretation of a given composition \cite{cancino2018computational}. The subjective nature of EMP generation makes it a difficult problem to understand from a computational perspective and is related to our discussion of evaluation methods given in section \ref{sec:evaluation}. }
+
+To provide a more detailed explanation of expression in musical performance, it is necessary to clearly define the first two components of the generation process - namely, scores and performances. We provide descriptions of both components at both a general and mathematical level. At the mathematical level we use the terminology of a \textbf{feature}, which is commonly used to describe the numerical values and data structure which are used as the input and output of a ML model. We refer the reader to appendix \ref{ase:app_one_sect_1} which provides some basic musical terminology and concepts that will be useful for understanding our definitions\footnote{Most of the appendix material may seem elementary to those who already have a background in music or musical notation. However, we feel that is necessary to include if for no other reason than to provide a clear definition for our descriptions both in general and at detailed mathematical level}. Due to the constraint of our data \rtodo{add reference} we focus only on western classical piano music. 
+
+\section{Scores}\label{sec:scores}
+A musical score is a symbolic representation of a musical composition. The symbolic notation used to create musical scores can be thought of as a language used to express musical ideas and information.  It presents this information in a hierarchical structure with different levels of musical detail at each level. Figure \ref{fig:score_hierarchy} shows a sample score and the different hierarchical levels of information that it contains
+
+\begin{figure}
+    \centering
+    \missingfigure{Image that shows a sample score with colorized annotations that show the different hierarchical levels}
+    \caption{Caption will be dependent on the image.}
+    \label{fig:score_hierarchy}
+\end{figure}
+
+%mnot for musical notation. Bold and emphasize at once
+\newcommand{\mnot}[1]{\textbf{\emph{#1}}}
+
+The lowest level contains information about the pitch and timing of every single note, as well as optional information about how the note should be played. This can include information specific to instruments such as the bow direction of a violin, but for our purposes (dealing only with piano) we will consider this to be the articulation of each note, usually indicated by \mnot{legato} or \mnot{staccato} \rtodo[,inline]{Make sure to have some background information on articulation in the appendix}
+
+The middle level contains information related to certain substructures within the musical composition, which are usually expressed within a grouping of notes or measures. The most common score annotations at this level are dynamic markings which indicate whether to play a grouping of notes as \mnot{f} (loud), \mnot{p} (soft), or as a \mnot{crescendo} or \mnot{decrescendo} (gradually increase or decrease the volume). %\rtodo{Add correct notation markings) %
+Although dynamic markings are the most common at this level, it is also possible to see score markings for all other musical features, such as local tempo or articulation of a certain substructure. Perhaps the most important score marking at this level is that of a phrase, which is a marking that indicates that a group of notes should be interpreted as belonging to a singular musical idea and that each note should fit within the context of the phrase as a whole. A phrase can be expressed through all of the different aforementioned musical features, including the tempo, timing, dynamics, and articulation of the notes.
+
+The highest level contains meta-information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
+
+\subsection{Score Features}
+\rtodo[,inline]{This entire section needs work. Include some detailed information but refer reader to chacon's thesis for a full breakdown. Possibly mention features from virtusoNet}.
+
+There are some score features which are required for EMP models, which include the musical features at the lowest level of a score as explained in section \ref{sec:scores}. These are pitch and timing, and the duration of the notes. Mid-level features include concepts at the local level and have some music theoretic concepts, such as downbeat information of a given measure according to the time signature, or the tonality of a chord (tonic, dominant, etc). High-level features represent advanced music theoritic concepts that are more global to the entire piece, including abstract properties of the piece such as the emotion the piece should convey and how different sections of the piece relate to each to tell a complete story \cite{eduardo2018computational}. 
+
+Both the mid-level and high-level features are not necessarily required for every EMP model as the lower-level features are, and are not consistent across all EMP models. It still remains an open question as to which features should be extracted from the data that the model can learn from. The lack of consistency in these features is one of the reasons that evaluation of EMP generation models is so difficult, as explained in section \ref{sec:evaluation}. 
+
+
+\section{Peformance}\label{sec:performance}
+An expressive musical performance contains most of the same musical information as does a score, but with one key difference; that is, that an expressive performance will deviate (or interpret) from the exact information that is presented in the score. For example, although a score may indicate a tempo of 120 BPM, it is highly unlikely that a given performer will perfectly adhere to this tempo throughout the entirety of the piece. This is even more apparent if the score indicates a change in tempo somewhere in the composition. If a score indicates that the performance should speed up over a series of notes, there is no telling at what rate the tempo should increase. Some performers may choose to speed up at a fast rate and over a short period of time. Others may choose to increase the tempo at a slow rate and over a longer period of time. A single accelerando (a score indication to pick up the tempo) can result in either of these outcomes. 
+
+As mentioned a performance contains most of the same musical information related to a score, which include pitch, tempo, timing and articulation. Each of these expressive parameters will be measurable and absolute, whereas the score markings of these features can be viewed more as a suggestion than a rule. There a few additional components of performance that are not ncessarily indicated in scores but are relevant which in understanding performance. The first we will refer to as deviation which is heavily related to timing. It is typically represented as a numerical number which represents how far off the timing of a particular note deviates from it's "correct" position in the score. These micro-timing deviations present in musical performances are an essential part of expression. Without them, indicating that each note onset and offset is exactly in line with its marking in the score, performances sound robotic and mundane \rtodo[,inline]{add a reference, graphic, and sample performance}. 
+
+The other important feature of performance that is not always present in a score applies specifically to the piano, and is the presence of a piano pedal. There are several different types of piano pedals, but the most common are the sustain pedal, which prolongs the duration of every note of the piano when activated, and the soft pedal which softens the sound of the entire piano. Although the effects of these pedals are directly related to the articulation and dynamics of the performance, their presence (or lack of) can be seen as a crucial component of piano performance. It is common for the sustain pedal to see active use in almost all modern piano performance, even when there doesn't exist any score marking indicating it's use. 
+
+\subsection{Performance Features}
+\rtodo[,inline]{Similarly to score features section, provide more detailed information about some of the math behind the features. Cite other resources where necessary}
+For western classical solo piano music, performance features are relatively simple compared to the score features as well as to other instruments. Most EMP models use the different aspects of a piano performance as explained in section \ref{sec:performance} for their data features, including the pitch, tempo, timing (or timing deviation), articulation, and pedal. Although at an abstract level the features are the same, there are different numerical methods used to describe each of the different aspects. These are presented in \rtodo[,inline]{Add reference to relevant work section that goes over the different elements. This information may belong better here and then referenced in the relevant work section}. 
 
 \section{Data}
-A brief section about the data used for the problem. Introduce MusicXML and MIDI
-\begin{itemize}
-    \item MusicXML
-    \begin{itemize}
-        \item A text based representation of a musical score. 
-        \item Created as a way to standardize score data among different notation software. 
-        \item Useful for EMP research because of the standardized format. 
-        \item Contains all relevant information about the score and it's related features. \rtodo{Add reference to feature section}
-    \end{itemize}
-    \item MIDI 
-    \begin{itemize}
-        \item Event based protocol for digital representation of musical instruments. 
-        \item Used in a variety of ways, most commonly known for it's use in DAW software to represent easily editable tracks for music production. 
-        \item Can be synthesized in many different ways. 
-        \item Contains all of the needed information to represent a musical performace. \rtodo{Reference feature section}. 
-    \end{itemize}
-    
-\end{itemize}
+The data required for EMP generation includes some digital form of representation of a score as well as a corresponding performance. Scores are typically given in the form of MusicXML, which is a text-based representation of a score. Performances could be directly be rendered as audio which is the process used by human performers with the use of an acoustic instrument. Instead of audio however, an intermediate data form, MIDI, is used to represent the performance. This better aligns with the generation process outlined in \ref{fig:generation_process}. In the full generation process, a separate model would be used to take the performance data in MIDI and synthesize that into raw audio which would be presented to the listener. Both data formats contain all of the required information to represent all of the musical components of both a score and a performance, including pitch, tempo, timing, articulation, deviation, and pedal. See appendix \ref{ase:app_one_sect_2} for more information on both MusicXML and MIDI. 
+
+To build an EMP generation model, it is necessary to run both the score and performance through a data alignment process in which every note of the performance is mapped to it's corresponding position in the score. Given the highly dynamic nature of musical performance, it is a non-trivial task to run this alignment process for a set of scores and performances, especially if the task is performed by manual human annotation. There exist methods for both manual and automatic alignment. Due to the time-consuming nature of manual alignment and the need for large data sets to build higher quality models, automatic alignment algorithms are an active area of research.
+
+\begin{figure}
+    \centering
+    \missingfigure{Show why score to performance alignment matching is necessary.}
+    \caption{Two performances of the same score can vary wildly in their tempo and timing. This makes it necessary to have a score to performance alignment for every performance. }
+    \label{fig:alignemnt}
+\end{figure}
+
+\subsection{Existing Data Sets}
+\rtodo[,inline]{Rework this section to fit with new paper outline. Need to forward reference models instead of back reference}
+One of the problems facing EMP and MIR in general is the lack of high quality and high scale datasets\cite{cancino2018computational}. This is in large part due to the fact that scope of possible data to collect related to music data is large, compared to other domains. As has already been discussed, there are different stages in the musical process, and each of them contain different possibilities for the representation of music. For example, composition can contain largely the same amount of information in at least three forms. The first and most common is the symbollic representation in the form of a data format like MusicXML. A musical performance also contains within it information about the composition itself, and performances can represented in an intermediate format such as MIDI, or in the form of raw audio. The same can be said for other fields such as NLP, which deals mostly with textual data, and Speech Processing, which deals mostly with language in the form of spoken word. However, the two fields are seen as distinct from each other and each come with more standardization in both research methods and data formats. Musical data and information has not seen the same rigour in the literature. 
+
+Another inherent problem with getting high-quality musical datasets is that most of the readily available musical data comes in the form of audio, which is much more difficult to process than symbolic (MusicXML) or intermediate (MIDI) forms given that it contains large amounts of noise and does not necessarily compress musical information. In contrast, NLP and Computer Vision directly deal with text and image data respectively, which are both readily available at a large scale due to the internet. 
+
+There are normally 3 required components for a EMP dataset. 
+\begin{enumerate}
+    \item Scores (usually in the form of MusicXML)
+    \item Performances (usually in the form of MIDI)
+    \item Metadata about the matching alignment between the score and performance. 
+\end{enumerate}
+Score data is usually gathered by finding readily available MusicXML files from open source software projects which contain music that is in the public domain (which all western classical music is) \footnote{\href{https://musescore.com}{MuseScore} is the most common. Also see the \href{https://imslp.org/wiki/Main_Page}{International Music Score Library Project}}, or by using Optical Music Recognition (OMR) to auotomatically scan paper sheet music into a digital form followed by manual corrections where needed. Because the relevant performance features are difficult to extract from raw audio, performance data usually comes in the form of MIDI. To gather MIDI data of professional performance, it is necessary for the performers to play on a computer-controlled piano which can record performances in MIDI form, as well as automatically play back recorded performances which allow the complete reproducibility of any existing performance. Both the Yamaha Disklavier \footnote{\url{https://usa.yamaha.com/products/musical_instruments/pianos/disklavier/index.html}} and the older Bosendorfer CEUS system have this capability. 
+
+There is no standardized method for score-to-performance alignment methods and data representations. Each dataset presents in own alignment method as well as the metadata that represents the alignment. 
+
+To provide context for the progression of data used in EMP generation, we'll start by touching an older dataset used in older EMP research, the Magaloff Corpus, and then describing a much larger scale dataset, the Piano-e-competition, which has recently been adapted for use in EMP generation. A full overview of datasets for EMP generation can be found in \cite{cancino2018computational}
+
+\subsubsection{Magaloff Corpus}
+Nikita Magaloff was a Russian pianist known for his performance cycles of Chopin's entire works for the solo piano. In one of his final cycles of performances recorder in 1989, he played on a Bosendorfer SE computer-controlled piano. The Magaloff Corpus \cite{flossmann2010magaloff} presented the recorded performances were converted to the standard MIDI format\cite{eduardo2018computational}, thus making available full performance data of all of Chopins compositions for solo piano. Score data was obtained using OMR with manual corrections where needed.  The alignment method presented in \cite{grachten2006expressivity} was used to produce the note-matching annotations, along with manual correction. The dataset contains over 10 hours of playing, 150 compositions, and over 320,000 performed notes. The corpus however, is not publicly available, and has only been used in research by \citet{flossmann2010magaloff} and colleagues \cite{eduardo2018computational}. 
+
+\subsubsection{Piano-e-competition}
+As has been discussed, there is a large push in modern MIR to produce high-quality large datasets. At the heart of this research in MIR is the Piano-e-competition. Started in 2002, it is an international piano competition which attracts some of the promising up and coming musicians at both the senior and junior level \cite{the-disklavier-education-network}. Every performance from the competition is played on a Yamaha Disklavier. Every performance from the competition dating back to 2002 is recorded in both MIDI and audio. \citet{hawthorne2018enabling} introduce the MAESTRO dataset, which presents both MIDI and audio data from the Piano-e-competition in a canonical and easily accessible form. The dataset was first used to build a full musical analysis and generation process framework named wav2midi2wave, which includes a musical transcription process \cite{hawthorne2017onsets} from raw audio to midi (wav2midi), a direct musical composition and performance generation model \cite{huang2018music} \footnote{This model directly generates MIDI files without using scores. It simultaneously generates a composition and performance. This task can been seen as a merging of the two separate tasks, composition and performance, as show in figure \ref{fig:generation_process}} (can be seen as the midi or midi2midi part of the wav2midi2wav framework), and a synthesis model that takes MIDI and generates raw audio\cite{oord2016wavenet} (midi2wav). 
+
+The Piano-e-competition also forms the basis for the data used to train virtuosoNet. The Piano-e-competition dataset itself does not provide any data about the scores of the music being performed; this data was collected by \citet{jeong2019virtuosonet} mostly from MuseScore. On top of gathering the score data for all performances in the Piano-e-competition, \citet{jeong2019virtuosonet} also run the automatic score-to-performance alignment algorithm presented in \cite{nakamura2017performance} to provide metadata about the alignment between each score and performance. Score-to-performance alignment is error-prone (especially in the case of performance mistakes) and as result, there are some performance notes which are not aligned to those in a score. \citet{jeong2019virtuosonet} also perform additional manual and heuristic corrections to the alignment where needed. The major difference between the Piano-e-competition and the Magaloff corpus is that it contains multiple performances for the same score, whereas the Magaloff Corpus has a 1-1 mapping between a score and performance. The dataset presented in \cite{jeong2019virtuosonet} has 226 scores across 16 different composers, roughly 660,000 score notes, and around 3,500,000 performance notes. The number of matched performance notes is ten times larger than the Magaloff Corpus, and all data is made publicly available \footnote{The dataset can be found at \url{https://github.com/mac-marg-pianist/chopin_cleaned}}. 
+
+The Aligned Scores and Performances (ASAP) dataset \cite{foscarin2020asap} is a recent adaptation of both the dataset presented by \citet{jeong2019virtuosonet} and the MAESTRO dataset. It uses the MusicXML files from \citet{jeong2019virtuosonet}, audio from the MAESTRO dataset, and MIDI files from both sources which are extracted from the common source of the Piano-e-competition. It provides additional alignment metadata for both MIDI and audio fields, as well as more manual correction in the MusicXML score files. Although the purpose of the ASAP dataset is for Automatic Music Transcription (AMT), which is the task of transcribing a score from a performance (either in audio or MIDI form) \footnote{AMT can be seen as the "opposite" of EMP, given that transcription does the reverse process of performance by mapping a performance to a score}, it is just as equally useful for EMP generation. To our knowledge it has not been used in any EMP generation task. Although it is largely similar to the dataset used to train virtuosoNet, the implications of it's extensions have yet to be determined in EMP. 
 
 
+\subsection{Performance Evaluation}\label{sec:evaluation}
+\rtodo[,inline]{Should probably go in chapter 3}
+One of the most important components of any computational model performing a task is that of evaluation. Evaluation is used to determine the quality of a model, and serves as a benchmark to compare different models used in the same task. Due to the inherently subjective nature of music and musical performance discussed in \ref{emp:sec}, evaluation is notioursly difficult to understand and perform correctly for EMP generation models \cite{cancino2018computational}. 
 
-\section{Transformers}
-Provide context to why transformers are important and the problems they've solved in nlp. 
-\begin{itemize}
-    \item Intuition behind transformers and why they are so powerful in sequence modeling
-    \item Attention is all you need paper \cite{vaswani2017attention}
-    \begin{itemize}
-        \item State of the art in translation tasks
-        \item New architecture for sequence modeling using only attention. No recurrent network
-    \end{itemize}
-    \item BERT \cite{devlin2018bert}
-    \begin{itemize}
-        \item Transformer Encoder only 
-        \item Self-supervised learning and pre-training. Includes having a simple multi-layer perceptron at the end to make it useful
-    \end{itemize}
-    \item Music Transformer \cite{huang2018music}
-    \begin{itemize}
-        \item Builds off of This Time with Feeling\cite{oore2020time} paper. Both composition and performance generation at the same time 
-        \item Implements full transformer architecture 
-        \item Achieves better results than LSTM
-    \end{itemize}
-    \item Question: Can a transformer model be applied to only performance generation with an encoder only architecture to achieve better results than current state of the art models?. Intuition says yes given the results from Music Transformer. 
-\end{itemize}
+Evaluation for computational models, specifically for EMP models, is typically categorized in two ways, quantitative evaluation and qualitatiative evaluation. Quantitative evaluation methods involve using numerical metrics which are computationally generated and deterministic. Qualitiative evaluation methods usually involve some form of human feedback and judgement presented in some standardized statistical measures. The key difference between quantitative and qualitiative is that qualitative methods are not as consisten and much more difficult to reproduce, given the reliance on the subjective feedback of human listeners. Traditionally, quantitative methods are preferred because of their consistency and reliability, In the case of EMP models however, qualitative evaluation methods may be even more important in gaining an understanding of what makes one model better than another. Finding good methods of evaluation is an active area of research in EMP \cite{cancino2018computational}. 
 
+\subsubsection{Quantitative}
+This method of evaluation is standard for ML models in general. There are a number of different metrics which are used in the evaluation process, all of which are specific to type of data and problem domain the model fits inside of. We will briefly cover the most common quantiative evaluation method that applies to our data and modeling domain, which is regression \rtodo{Add reference that discusses the feature engineering}. 
 
+% Regression involves building a model that can output or predict real valued numbers, as opposed to classification models which output or predict a discrete number that identifies a "class" or a set of "classes". The trivial examples of both regression and classification are predicting the value of the stock market in the future (as a real number) and classifying whether an email is spam or not, respectively.
 
-\section{Evaluation}
-\begin{itemize}
-    \item Evaluation is particularly difficult for a problem like EPG because there is no "correct" interpretation of a score. However, there is at least a vaguely understood relationship between a score marking and how a performaner should use that marking within the context of a performance. For example, if a crescendo marking is used in a score, the performer should at the very least increase the volume of the performance relative to the current volume of the piece. The amount which the volume should increase or the rate at which it increases are not clearly defined, but the fact of the increase of volume itself is. This is the fundamental intuition behind the motivation to build computational models for expressive performance. Nonetheless, it still remains a difficult job to evaluate a given EPG model because of the ambiguity of what is "correct" or not.
-    \item Evaluation methods used so far in EPG models are broken into two categories, quantitative and qualitative. 
-    \item Quantitative: 
-    \begin{itemize}
-        \item This follows standard techniques for experimentation of evaluation of ML models in general. It usually involves calculating a numerical value for a models inference on a separate test data set that was not used for model training or model selection. \rtodo{Find reference for ML training and evaluation}. Common metrics for regression like problems are mean squared error (MSE) and the pearson correlation coefficient (R2). 
-        \item Due to the nature of EPG model evaluation mentioned above, it is not clear that "better" quantiative metric score for a given model over another indicates that the performance of the model is superior. \rtodo{Find section in Garcon survey that references this point}. 
-    \end{itemize}
-    \item Qualitative
-    \begin{itemize}
-        \item Qualitative evaluation methods involve gathering human feedback by playing performances of a given models performance to an audience and getting ratings or judgement of the model according to a predefined questionnare or survey method. The nature of these evaluation methods is not consistent in the current literature and remains a challenge for the field to solve in the future. \rtodo{Find section in Garcon survey that references this point}. 
-        \item \rtodo[, inline]{Conduct more research for reference on current methods for qualititative evaluation}
-    \end{itemize}
-\end{itemize}
+The two common metrics used for evaluation and regression are Mean-Squared-Error (MSE) and the Pearson Correlation Coefficient, usually denoted as the $R^2$ score. MSE is used to measure the difference between a prediction and an actual observed target value, and can be denoted as $MSE = \frac{1}{n}\sum_{i=1}^{n}(Y_i - \hat{Y_i})^2$, where $Y_i$ is the observed value at time step $i$, and $\hat{Y_1}$ is the predicted value. $R^2$ is a probablistic measure of the linear correlation between variables $X$ and $Y$, and is denoted as $\rho_{X,Y} = \frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}$ where cov indicates the covariance and $\sigma$ indicates the standard deviation. \footnote{See wikipedia for more information on \href{https://en.wikipedia.org/wiki/Mean_squared_error}{MSE}, \href{https://en.wikipedia.org/wiki/Covariance}{covariance}, \href{https://en.wikipedia.org/wiki/Standard_deviation}{standard deviation}, and \href{https://en.wikipedia.org/wiki/Pearson_correlation_coefficient}{the correlation coefficient}}
 
+One of the problems with using quantiative, or "objective" evaluation methods, is that it usually invovles comparing a generated performance $\hat{Y}$ with a human performance ${Y}$. Given that no performance (or interpretation) of a can objectively been seen as better than another, this method of evaluation is also biasing the quality of a model towards some subjective view of the "correct" interpretation. Of course, a "correct" interpretation doesn't exist, which is what makes evalution methods for this particularly problem difficult. 
 
-% Here shows to insert figures and cite figures in the main text.
+\rtodo[,inline]{Add reference to other works using either MSE or r2}
 
-% \begin{figure}[h!]
-% \centering
-% % \includegraphics[width = 0.85\linewidth]{./figs/ch2/lena.bmp}
-% \caption{Picture of Lena}
-% \label{fig:2-fig1}
-% \end{figure}
-% Picture of lena is shown in Fig. \ref{fig:2-fig1}.
+\subsubsection{Qualitative}
+\rtodo[,inline]{Need to conduct more research before I can write this section. Haven't done so because I won't be performing a qualitative evaluation myself in the paper. However it is still worth mentioning}
