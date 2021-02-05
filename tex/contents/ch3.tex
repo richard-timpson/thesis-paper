@@ -11,8 +11,8 @@ There are different types tasks which are relevant to sequential data. Perhaps t
 
 EMP generation is a more complicated process however, and involves the mapping of the input sequence (score) to another output sequence (performance). We call such a task a sequence-to-sequence (\seq{}) model. In this case our input data $X$ is the same, but our output data is also defined as a sequence of vectors $Y = \{y_1, y_2, y_3, ..., y_l\}$, where $y_i \in \mathbb{R}^k$ is a k-dimensional vector. A \seq{} model $S: \mathbb{R}^{n \times m} \rightarrow \mathbb{R}^{l \times k}$ will map from an input sequence $X$ to an output sequence $Y$. For EMP generation, $m$ is the number of score features, $n$ is number of input score notes, $k$ is the number of performance features, and $l$ the number of output performance notes. 
 
-\section{Neural Machine Translation}
-The Recurrent Neural Network and it's adaptations have historically been used as the go to model for sequential modeling with NNs. For brevities sake, we do not provide the detailed mathematical defintion for RNNs here and refer to the reader to \cite{goodfellow2016deep}. However, in recent years the Transformer\cite{vaswani2017attention} architecture model has surpassed RNNs in many tasks as is becoming the de-facto standard for sequential data modeling in modern Machine Learning. To provide context for the origin of Transformer we will outline the historical progress of an NLP task which was the first application of the Transformer. That is neural machine translation (NMT). 
+\section{Case Study: Neural Machine Translation}
+The Recurrent Neural Network and its adaptations have historically been used as the go to model for sequential modeling with NNs. For brevities sake, we do not provide the detailed mathematical defintion for RNNs here and refer to the reader to \cite{goodfellow2016deep}. However, in recent years the Transformer\cite{vaswani2017attention} architecture model has surpassed RNNs in many tasks as is becoming the de-facto standard for sequential data modeling in modern Machine Learning. To provide context for the origin of Transformer we will outline the historical progress of an NLP task which was the first application of the Transformer. That is neural machine translation (NMT). 
 
 Machine translation (MT) is the task of computationally translating one natural language to another\footnote{\href{https://translate.google.com/}{Google Translate} is one successful commercial application.}. Traditional MT systems relied rule sets and complicated decoding algorithms, and are known as statistical machine translation (SMT). NMT allows for the end-to-end training of a translation system inside of a single ANN and significantly reduces the complexity of building MT models \cite{chu2018survey}. NMTs are \seq{} models and typically operate by translating a single sentence at a time. Until the advent of the Transformer, they were based on RNN models. 
 
@@ -61,7 +61,7 @@ Both BERT and GPT have significatly pushed the state of art in NLP and sequence 
 
 
 \section{Existing Expressive Musical Performance Generation Models}
-\rtodo[,inline]{This section also needs a major update after the general outline change}
+\rtodo[,inline]{Make this section its own chapter with edits to make it fit in the general story}
 EMP generation models fit into one of two categories, rule-based and data-based. Rule-based systems are built using a set of hardcoded rules which are derived using pre-existing musical knowledge and empirical studies involving human cognition. Data-driven models rely on probabilistic and machine learning methods to take an existing dataset of both scores and performances and use the performance data as a guide to learn the mapping between score features and performance features. 
 
 \subsection{Rule Based}
