@@ -13,29 +13,28 @@
 \contentsline {todo}{Add reference that discusses the feature engineering}{19}{section*.22}%
 \contentsline {todo}{Add reference to other works using either MSE or r2}{20}{section*.23}%
 \contentsline {todo}{Need to conduct more research before I can write this section. Haven't done so because I won't be performing a qualitative evaluation myself in the paper. However it is still worth mentioning}{20}{section*.25}%
-\contentsline {todo}{Continue discussion about Attention}{24}{section*.26}%
-\contentsline {todo}{transformer section needs a lot of work given the change of the general document outline}{24}{section*.27}%
-\contentsline {todo}{Explore different ways to describe self-attention. May not even be necessary at all to mention}{25}{section*.28}%
-\contentsline {todo}{Find reference}{25}{section*.29}%
-\contentsline {todo}{Make this section its own chapter with edits to make it fit in the general story}{27}{section*.30}%
-\contentsline {todo}{Figure: show some of the rules from the KTH paper in either a table or a figure}{28}{figure.caption.32}%
-\contentsline {todo}{May need more exploration in caption}{28}{section*.31}%
-\contentsline {todo}{This idea needs more cohesion with the rest of the thesis. Try to provide our own mathematical definition of EMP (similarly to the way we did with neural machine translation). We could actually use the BM framework as this definition, although it may be more mathematical than we need}{29}{section*.34}%
-\contentsline {todo}{add more information about score feature}{30}{section*.35}%
-\contentsline {todo}{Verify that footnote is correct}{30}{section*.36}%
-\contentsline {todo}{Change virtuosoNet heading to look better. Also look into creating a macro for virtuosoNet to create a typeset so that the name stands out}{31}{section*.38}%
-\contentsline {todo}{add section}{31}{section*.39}%
-\contentsline {todo}{Provide more explanation for the deadpan recording. May be worth it to mention in the qualitative evaluation section}{31}{section*.40}%
-\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{32}{section*.41}%
-\contentsline {todo}{Make sure to add a section about feature engineering with virtuosoNet}{33}{section*.42}%
-\contentsline {todo}{add table reference}{36}{section*.43}%
-\contentsline {todo}{Add ref}{37}{section*.44}%
-\contentsline {todo}{Add reference}{39}{section*.45}%
-\contentsline {todo}{Explain the results in the table when all experiments are done running}{41}{section*.47}%
-\contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{44}{figure.caption.49}%
-\contentsline {todo}{Add ref to discussion}{46}{section*.51}%
-\contentsline {todo}{Add section about Music Transformer}{49}{section*.52}%
-\contentsline {todo}{Continue discussion of better evaluation methods. Need to do more research on current methods}{51}{section*.53}%
-\contentsline {todo}{Create or find visualization}{57}{section*.55}%
-\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{58}{section*.56}%
-\contentsline {todo}{create or find visualization}{58}{section*.57}%
+\contentsline {todo}{transformer section needs a lot of work given the change of the general document outline}{25}{section*.26}%
+\contentsline {todo}{Explore different ways to describe self-attention. May not even be necessary at all to mention}{26}{section*.27}%
+\contentsline {todo}{Find reference}{27}{section*.28}%
+\contentsline {todo}{Make this section its own chapter with edits to make it fit in the general story}{28}{section*.29}%
+\contentsline {todo}{Figure: show some of the rules from the KTH paper in either a table or a figure}{29}{figure.caption.31}%
+\contentsline {todo}{May need more exploration in caption}{29}{section*.30}%
+\contentsline {todo}{This idea needs more cohesion with the rest of the thesis. Try to provide our own mathematical definition of EMP (similarly to the way we did with neural machine translation). We could actually use the BM framework as this definition, although it may be more mathematical than we need}{30}{section*.33}%
+\contentsline {todo}{add more information about score feature}{31}{section*.34}%
+\contentsline {todo}{Verify that footnote is correct}{31}{section*.35}%
+\contentsline {todo}{Change virtuosoNet heading to look better. Also look into creating a macro for virtuosoNet to create a typeset so that the name stands out}{32}{section*.37}%
+\contentsline {todo}{add section}{32}{section*.38}%
+\contentsline {todo}{Provide more explanation for the deadpan recording. May be worth it to mention in the qualitative evaluation section}{32}{section*.39}%
+\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{33}{section*.40}%
+\contentsline {todo}{Make sure to add a section about feature engineering with virtuosoNet}{34}{section*.41}%
+\contentsline {todo}{add table reference}{37}{section*.42}%
+\contentsline {todo}{Add ref}{38}{section*.43}%
+\contentsline {todo}{Add reference}{40}{section*.44}%
+\contentsline {todo}{Explain the results in the table when all experiments are done running}{42}{section*.46}%
+\contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{45}{figure.caption.48}%
+\contentsline {todo}{Add ref to discussion}{47}{section*.50}%
+\contentsline {todo}{Add section about Music Transformer}{50}{section*.51}%
+\contentsline {todo}{Continue discussion of better evaluation methods. Need to do more research on current methods}{52}{section*.52}%
+\contentsline {todo}{Create or find visualization}{58}{section*.54}%
+\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{59}{section*.55}%
+\contentsline {todo}{create or find visualization}{59}{section*.56}%
