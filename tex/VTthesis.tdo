@@ -9,8 +9,8 @@
 \contentsline {todo}{Add reference to relevant work section that goes over the different elements. This information may belong better here and then referenced in the relevant work section}{13}{section*.15}%
 \contentsline {todo}{Figure: Show why score to performance alignment matching is necessary.}{14}{figure.caption.16}%
 \contentsline {todo}{Rework this section to fit with new paper outline. Need to forward reference models instead of back reference}{14}{section*.17}%
-\contentsline {todo}{Should probably go in chapter 3}{18}{section*.20}%
-\contentsline {todo}{Add reference that discusses the feature engineering}{19}{section*.22}%
+\contentsline {todo}{Should probably go in chapter 3}{19}{section*.20}%
+\contentsline {todo}{Add reference that discusses the feature engineering}{20}{section*.22}%
 \contentsline {todo}{Add reference to other works using either MSE or r2}{20}{section*.23}%
 \contentsline {todo}{Need to conduct more research before I can write this section. Haven't done so because I won't be performing a qualitative evaluation myself in the paper. However it is still worth mentioning}{20}{section*.25}%
 \contentsline {todo}{transformer section needs a lot of work given the change of the general document outline}{25}{section*.26}%
@@ -18,19 +18,17 @@
 \contentsline {todo}{Add reference to Music Transformer}{27}{section*.28}%
 \contentsline {todo}{Figure: show some of the rules from the KTH paper in either a table or a figure}{29}{figure.caption.30}%
 \contentsline {todo}{May need more exploration in caption}{29}{section*.29}%
-\contentsline {todo}{Need to find a better way to describe the dataset here as wellas in the section where the datasets are introduced.}{32}{section*.33}%
-\contentsline {todo}{add section}{33}{section*.34}%
-\contentsline {todo}{Provide more explanation for the deadpan recording. May be worth it to mention in the qualitative evaluation section}{33}{section*.35}%
-\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{33}{section*.36}%
-\contentsline {todo}{Make sure to add a section about feature engineering with virtuosoNet}{34}{section*.37}%
-\contentsline {todo}{add table reference}{37}{section*.38}%
-\contentsline {todo}{Add ref}{38}{section*.39}%
-\contentsline {todo}{Add reference}{40}{section*.40}%
-\contentsline {todo}{Explain the results in the table when all experiments are done running}{42}{section*.42}%
-\contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{45}{figure.caption.44}%
-\contentsline {todo}{Add ref to discussion}{47}{section*.46}%
-\contentsline {todo}{Add section about Music Transformer}{50}{section*.47}%
-\contentsline {todo}{Continue discussion of better evaluation methods. Need to do more research on current methods}{52}{section*.48}%
-\contentsline {todo}{Create or find visualization}{58}{section*.50}%
-\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{59}{section*.51}%
-\contentsline {todo}{create or find visualization}{59}{section*.52}%
+\contentsline {todo}{An introduction of deadpan performances might work better in qualitative evaluation background}{33}{section*.33}%
+\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{33}{section*.34}%
+\contentsline {todo}{Make sure to add a section about feature engineering with virtuosoNet}{35}{section*.35}%
+\contentsline {todo}{add table reference}{38}{section*.36}%
+\contentsline {todo}{Add ref}{39}{section*.37}%
+\contentsline {todo}{Add reference}{41}{section*.38}%
+\contentsline {todo}{Explain the results in the table when all experiments are done running}{43}{section*.40}%
+\contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{46}{figure.caption.42}%
+\contentsline {todo}{Add ref to discussion}{48}{section*.44}%
+\contentsline {todo}{Add section about Music Transformer}{51}{section*.45}%
+\contentsline {todo}{Continue discussion of better evaluation methods. Need to do more research on current methods}{53}{section*.46}%
+\contentsline {todo}{Create or find visualization}{59}{section*.48}%
+\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{60}{section*.49}%
+\contentsline {todo}{create or find visualization}{60}{section*.50}%
