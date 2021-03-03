@@ -1,66 +1,129 @@
 \chapter{Methods and Experiments Results}\label{ch:ch5}
-Given the relevant background research and knowledge base, we will now describe the experiments we ran and the reason behind our experimental methods. Given the powerful advances in NLP due to the Transformer discussed in \ref{sec:transformers}, our general goal was to investigate the results of the Transformer in application to EMP generation, which to our knowledge has never been done. Because both language and music are highly sequential and hierarchical in nature, our intuition was that because the Transformer does a good job of learning the general structure of language, that it can do the same of for music. We use the general framework for a complete end to end performance generation system which is proposed by virtuosoNet. In its simplicity, the initial purpose of this project was to determine if a Transformer based model can improve upon virtuosoNet, given the same data, features, and evaluation metrics\rtodo[,inline]{Make sure to add a section about feature engineering with virtuosoNet}. However, due to the highly ambiguous and subjective nature of EMP generation, there was no clear way to know if we confidently answer this question given our results. As such, we modified our research direction to providing additional insight and intuition about the nature of EMP generation itself and how this intuition can guide future work. 
+Given the proper background research and knowledge base, we will now describe our experiments and methods. Given the powerful advances in NLP and music generation tasks, our general goal was to investigate the Transformer model in application to EMP generation. Both language and music are by nature sequential and hierarchical. As such, one would expect the strengths of a Transformer model, created specifically for an NLP task, to have natural extensions into musical tasks. We use the complete end-to-end generation system of the \vnetf{}. This project's initial purpose was to determine if a Transformer-based model improves upon \vnet{}, given the same data, features, and evaluation metrics. However, as discussed in section \ref{ch:ch6}, answering that question proved to be more complicated than initially anticipated and led our research in a different direction. We present our initial method and experiment results in this chapter. 
+
+There are three major reasons for adopting the \vnet{} system. 
+\begin{enumerate}
+    \item The KAIST dataset is the largest publicly available dataset used in EMP generation.
+    \item \vnet{} models are the ``best performing'' in EMP.
+    \item The data processing and model architecture code of the \vnetf{} are open-sourced\footnote{https://github.com/jdasam/virtuosoNet}.
+\end{enumerate}
+If we consider \vnet{} to be state-of-the-art in EMP generation, it provides a natural starting place to compare against any further model development. 
 
 \section{Data and Features}
-The reasons for the adoption of the virtuosoNet system are twofold: the first being that the dataset used to develop virtuosoNet was the largest publicly available dataset used in EMP generation, and the second being that the code and models of virtuosoNet are open-sourced \footnote{https://github.com/jdasam/virtuosoNet} and contain all of the necessary data processing. This system also somewhat represents the "state of the art" in EMP generation, so it provides a natural starting place to use for comparison against any further model development. The virtusoNet system uses handcrafted features for both scores and performances. Score features contain low-level information (pitch and timing), high-level information such as the key and metric information, as well as more detailed information such as the duration of rests, articulation markings (legato and staccato), and the distance from the closest preceding tempo and dynamics directions, slur, and beam status. The performance features include all of the standard performance features: tempo expressed as BPM, note onset deviation, MIDI velocity, articulation, and different features related to the onset and offset times of the pedal. A full outline of the features is given in \cite{jeong2019score}. 
+The \vnet{} system uses handcrafted features for both scores and performances, which are outlined in section \ref{ch:ch4}. We use the same feature set.
 
 \section{Model}
-In the virtuosoNet system, there is a 1:1 mapping between notes in scores and performances. The original Transformer as an encoder-decoder model was designed as a seq-2-seq model where the sequences have different lengths, which adds additional complexities into the model to account for this difference. To keep our system simple, our model is conceptually similar to BERT, and acts as an encoder-only Transformer model.  It contains a simple fully connected linear layer on top which will learn the final mapping between the Transformer encoding and the actual score features. We use the standard absolute positional embedding which is concatenated with the score features as input to the model. The performance output features of the model can be used to construct a MIDI file, allowing for the system to performance full performance generation given a score in MusicXML form. 
+In the \vnet{} system, there is a 1:1 mapping between notes in scores and performances. As mentioned in chapter \ref{ch:ch3}, encoder-decoder \seq{} models with variable-length input/output sequences account for the difference in length by using a generative decoder model which relies on the input encoding. Because our input and output sequences are the same lengths, we saw no need to include a generative decoder. Our model is a simpler encoder-only Transformer model, conceptually similar to BERT. Sitting on top of the Transformer encoder is a simple FFNN that uses the learned representation from the Transformer and maps to the final output feature set. We use the absolute positional embedding of \citet{vaswani2017attention} used with the original Transformer. 
+
+\begin{figure}
+    \centering
+    \missingfigure{Our model architecture. Show the standard transformer layers with a simple decoder layer on top}
+    \caption{Caption will be dependent on the image}
+    \label{fig:model_architecture}
+\end{figure}
 
 \section{Experiments and Model Evaluation}\label{sec:experiments-and-evaluation}
-virtuosoNet is built as a regression model and uses MSE as both its loss function and evaluation metric. It uses an 8-1-1 train/valid/test data split, and \citet{jeong2019virtuosonet} present MSE results for each different parameter of the performance features on the test set. We follow the same method for our quantitative evaluation. Most models were trained at 50 epochs, and the best model parameters were selected according to the lowest validation evaluation score. We used the software Neptune AI \cite{neptune} to manage our experiments and report the metric feedback. Data for all of the experiments we ran including the model hyperparameters and metrics can be found online\footnote{\url{http://ui.neptune.ai/richt3211/thesis}}. 
+Our initial experiments were designed to answer two questions: 
+\begin{enumerate}
+    \item Does a Transformer based EMP generation model outperform a similar LSTM based EMP generation model?
+    \item Does a Transformer based EMP generation model outperform existing state of the art (\vnet{}) models?
+\end{enumerate}
+To answer both of these questions, we ran all of our experiments using the existing \vnetf{}. The \vnetf{} defines real-valued features, and the resulting models are regression models. All \vnet{} models use MSE as both the loss function for training and reconstruction error for quantitative evaluation. \vnet{} models are trained using an 8-1-1 train/valid/test data split, and \citet{jeong2019virtuosonet} present MSE results for each different parameter of the performance features on the test set. We follow the same method for our quantitative evaluation, using the same data split, loss function, and evaluation metrics. Our models were trained at 50 epochs, and the best model parameters were selected according to the lowest validation evaluation score. Our models were implemented in PyTorch using their native Transformer library. We used Neptune AI \cite{neptune} to manage our experiments and report the metric feedback. Data for all of our experiments, including the model hyperparameters and metrics, can be found online\footnote{\url{http://ui.neptune.ai/richt3211/thesis}}. 
 
-We ran experiments using the same data for several different model configurations. Similarly to our Transformer encoder model, we build an LSTM baseline model with 3 recurrent layers which acts as an encoder and a simple fully connected linear on top to perform the final mapping between the LSTM encoding and the output features. The LSTM baseline is 3 layers with a hidden size of 256, and is used for comparison purposes only. 
+Our main experimental goal was to find the best model configuration for a Transformer based model. To do so, we ran a reasonably exhaustive hyperparameter search for our Transformer model. To guide our search, we trained our baseline LSTM model and a few \vnet{} models in tandem with our Transformer model. We used the evaluation results from the validation set to gain an intuition about which family of models performed the best. The final test set evaluation happened after all model development was finished. 
 
 \subsection{Quantitative Evaluation}
-We use several different model configurations for the Transformer. Our Transformer baseline has 6 layers, 6 attention heads, and a hidden size of 256. We chose this as a base configuration because it closely matches the size of the original Transformer \cite{vaswani2017attention}, except for the hidden size of the feed-forward layer. We chose a smaller hidden size of 256 for our base layer hidden size due the relatively small dimensionality, 78, of the input data to the model. Our initial goal was to find the optimal model configuration according to a quantitative evaluation, which meant finding the lowest total MSE loss. To keep our modeling honest, we withheld from running the final test evaluation until all models had been trained. As such, we needed a way to compare against existing virtuosoNet models without using the final MSE evaluation metrics reported by \citet{jeong2019virtuosonet}. To do this, we trained from scratch the Iterative Sequential Graph Network (ISGN) and the HAN baseline (HAN-BL) models as reported in \cite{jeong2019graph} and \cite{jeong2019virtuosonet} respectively, and used the metrics from the validation data set to guide our own model development before we ran the final evaluation. We ran a fairly exhaustive search of a single dimension of the hyperparameters at a time. The full results of these models are show in table \ref{tab:quantitative} \rtodo{add table reference}. 
+We use several different model configurations for the Transformer. Our Transformer baseline has 6 layers, 6 attention heads, and a hidden size of 256. We chose this as a base configuration because it closely matches the size of the original Transformer \cite{vaswani2017attention}, except for the hidden size of the feed-forward layer. We use a smaller hidden size of 256 for our base layer hidden size due to the relatively small dimensionality, 78, of the model's input data% 
+\footnote{The original Transformer uses a baseline input dimensionality of 528. In this case, the model inputs are word vectors whose size can be configured dynamically to find the best word representation for a given model. In our case, our input size dimensionality is fixed according to the input features of the \vnetf{}}. We trained from scratch the Iterative Sequential Graph Network (ISGN) and the HAN baseline (HAN-BL) models as reported in \cite{jeong2019graph} and \cite{jeong2019virtuosonet} respectively and used the metrics from the validation data set to guide our own model development before we ran the final evaluation. Table \ref{tab:quantitative} contains the result of the final evaluation.
 
-%tm for transformer model
-\newcommand{\tm}[1]{$T_{N_{#1}}$}
+% using macros in case the values change. 
 
-\subsection{Qualitative Evaluation: Identifying Training Problems}\label{sec:qualitative-eval-problems}
-During our model development we conducted our own listening tests to subjectively determine the quality of each model. It was apparent from the start that there was a mismatch between the quantitative results of the model and it's quality in a listening test. For example, the Transformer model with $N_{id}$ 125 (which we will denote as \tm{125}, see Table \ref{tab:quantitative}) had much worse validation MSE metrics than almost every other model Transformer model. However, a listening test revealed that the absolute tempo for smaller models, such as the Transformer baseline \tm{147}, was much faster and sounded worse (to the point where the performances are almost 'unlistenable') than \tm{125}, even though it presented better quantitative metrics on the validation test set. The potential disconnect between the 'quality' of the model as determined by quantitative and qualitative evaluation led us to investigate potential problems with the training methods used by \citet{jeong2019virtuosonet}. See section \rtodo{Add ref} for a more in-depth discussion of this evaluation. 
+% model configuration
+\newcommand{\nep}{$N_{id}$}
+\newcommand{\mn}{$M$} % mn for 'model name'
+\newcommand{\nl}{$L$} % nl: num layers
+\newcommand{\dhid}{$d_{hid}$} % dhid: dimension hidden size
+\newcommand{\drop}{$D$} % D: Dropout
+\newcommand{\lr}{$LR$} % LR: Learning Rate
+\newcommand{\clip}{$C$} % C: gradient clip
+\newcommand{\nh}{$H$} % nh: num heads
 
-One of the first potential problems we identified was the method used to calculate and interpret the loss and evaluation. The output features of virtuosoNet are represented by a sequence of vectors with a length of 11. The first 4 features are values that correspond to a single expressive parameter, and are tempo, velocity, deviation, and articulation, respectively. The last 7 features are all different numbers that correspond to information about the pedal \cite{jeong2019score}. \citet{jeong2019virtuosonet} present MSE metrics for five different expressive parameters, which include all of those previously mentioned, as well as the pedal. This means that when we refer to the pedal MSE, it is an aggregation of the 7 different features that contain pedal information. The original MSE which was used to train virtuosoNet assumed that every feature of the output vector contributed equally to the final output and corresponding loss optimization. Given that there is 7 times more information for the pedal parameter than all others, we can think of this loss function as placing much more importance for the pedal than every other expressive feature. To combat this, we came up with a new weighted MSE loss function that allows for the optimization of some features over another. 
+% Expressive features
+\newcommand{\temp}{$t$}
+\newcommand{\vel}{$v$}
+\newcommand{\dev}{$d$}
+\newcommand{\art}{$a$}
+\newcommand{\ped}{$p$}
 
-\newcommand{\rvec}[1]{\mb{#1}}
 
-% vn for vector normal. predicted
-% vh for vector hat. target
-\newcommand{\vn}{\rvec{v}}
-\newcommand{\vh}{\rvec{\hat{v}}}
+% my results
+                  %total              %tempo              %vel              %dev              %articul              %pedal        
+\readlist*\a{1.079915467915403, 0.8387099791654173, 1.3530433499396628, 1.017870266429722, 1.1067559519102133, 1.080384319222477} % 123 
+\readlist*\b{0.8634560842141723, 0.5412064723018719, 0.8022146236503704, 0.8804639799541721, 0.8022366483458304, 0.9245564142364828} % 147 
+\readlist*\c{0.8714990162701071, 0.5505609703737273, 0.7881732323421042, 0.9611995326543272, 0.8751485813981792, 0.9159152227103448} % 169 
+\readlist*\d{0.8608967689267041, 0.5025553895868159, 0.7638317284792879, 0.878050578836977, 0.8178488211257614, 0.929653946913942} % 128 
+\readlist*\e{0.8269241870319757, 0.4671040222800673, 0.7613456284477763, 0.8818908914978052, 0.8233950348666115, 0.8803471737534461} % 133 
+\readlist*\f{0.892434075736163, 0.6518531192930515, 0.8248660148758638, 0.8837178772102976, 0.822714017388242, 0.9476605038763138} % 118 
+\readlist*\g{0.931571010408277, 0.6190825817829081, 0.96866907527554, 0.8923720742977281, 1.0889969662761827, 0.9540228699651616} % 181 
+\readlist*\h{0.8398954164095592, 0.5103522019637757, 0.7708808816209132, 0.9533001596417616, 0.8093733305095236, 0.8849918198915682} % 132 
+\readlist*\i{0.9055077961121484, 0.7380731321188851, 0.8207453556958286, 0.9515869074832948, 0.8602034320048559, 0.9414252330302848} % 171 
+\readlist*\j{1.005084838962903, 0.8624353822994071, 1.0529326007749042, 0.8987197173990472, 1.1763732810960201, 1.0093531322087683} % 173 
+\readlist*\k{0.8352959967855129, 0.6160173766780894, 0.7846170962729531, 0.8910593114013335, 0.7908931125724473, 0.8722384046125028} % 188 
+\readlist*\l{0.8463679141699834, 0.5445592460407571, 0.7492400507566016, 0.899280836268869, 0.8597047927381344, 0.8938945523819722} % 134 
+\readlist*\m{0.8707426997177073, 0.4897337480780074, 0.7796597156133693, 0.8877784585332059, 0.8655195282458561, 0.9364968512758156} % 190 
+\readlist*\n{0.8436574470387758, 0.4748660706616556, 0.8106850048921405, 0.8946506051604983, 0.8585572391965963, 0.8916389604554559} % 135 
+\readlist*\o{0.9331073568122104, 0.6931559999619044, 0.9870281539322866, 0.9139575008493828, 1.1235607440091158, 0.9352111728264682} % 125 
 
-% df for difference
-\newcommand{\df}[1]{(\vn_{#1} - \vh_{#1})^2}
+% virtuosoNet results. Copied from other papers
 
-% al for alpha
-\newcommand{\al}[1]{\alpha_{#1}}
+                        % total      %temp, %vel, %dev, %art, %pedal  
+\readlist*\vbl{0.7698181818181818, 0.4, 0.673, 0.773, 0.721, 0.843} 
+\readlist*\vs{0.7324545454545454, 0.269, 0.607, 0.753, 0.688, 0.82} 
+\readlist*\vm{0.7202727272727273, 0.22, 0.532, 0.747, 0.754, 0.81}
 
-We define the output vector as an 11 dimensional vector $\rvec{v} = \{t, v, d, a, p_0, p_1, p_2, p_3, p_4, p_5, p_6\}$ where $t$, $v$, $d$, and $a$ represent tempo, velocity, deviation, and articulation respectively, and $p_i$ represents a single component of the pedal. For a predicted output vector $\vn$ and the target output vector $\vh$, standard MSE loss is $MSE(\vn, \vh) = \frac{1}{n}\sum_{i=1}^{n}(\vn_i - \vh_i)^2$. This can also be re-written as $MSE(\vn, \vh) = \frac{1}{11}[\df{t} + \df{v} + \df{d} + \df{a} + \sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2]$. We introduce 5 different weight values: $\al{t}, \al{v}, \al{d}, \al{a}$ and $\al{p}$. Our weighted MSE loss is defined as $W_{MSE}(\vn, \vh) = \frac{1}{\al{t} + \al{v} + \al{d} + \al{a} + \al{p}}[\al{t}\df{t} + \al{v}\df{v} + \al{d}\df{d} + \al{a}\df{a} + \al{p}\sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2 ]$. The original MSE can be seen as the weighted MSE with $\al{t}, \al{v}, \al{d}, \al{a} = 1$, and $\al{p} = 7$. 
-
-If we conceptualize the loss optimization in this way, we can view the original model optimization as placing much more importance towards accuracy in the pedal than any other feature of expression. The MSE was used not only as the loss function to optimize the model, but also as the actual metric to evaluate the model with. This evaluation means that models with an emphasis in pedal accuracy will be preferred over those without it. This presents the question of determining whether or not this is the right way to conceptualize a 'good' model. Would a different configuration of the expressive feature weights lead to a better outcome? These answers are non-trivial and this further emphasizes the importance of having better ways to both optimize and evaluate EMP generation models. With this mind we ran additional experiments changing the weights for each expressive parameter. The results of these experiments are outlined in section \ref{sec:qualitative-analysis}. 
-
-We also changed the way in which the loss was calculated for the articulation feature. As discussed in section \ref{sec:data-based}, virtuosoNet uses an alignment algorithm which presents metadata about the alignment between the score and performance of every single note. The notes that are not aligned are included in the input data to the model, but are excluded from the loss calculation. A similar method is used with notes relating to the articulation feature and the pedal. \citet{jeong2019virtuosonet} say \say{Since the articulation is largely affected by the sustain pedal, we reduced the weight for the articulation loss to 0.1 for notes with the sustain pedal pressed at the offset}. In the actual data generation code the weights for the articulation loss calculation are slightly more complicated than what is presented in the paper \footnote{See \href{https://github.com/jdasam/pyScoreParser/blob/1d36e6f4f46d835f3ad08fea66892f475ac08dd9/xml_matching.py\#L323}{github}}, but the intuition behind changing the loss for notes used in combination with a pedal is the same. For some experiments we change this loss calculation for articulation to fall in line with all other performance features which involves using alignment data only to exclude notes from the loss. Again, this type of optimization and evaluation is subjective and it is hard to say if one is more correct than another. 
-
-Changing the loss function (as well as the evaluation function) in such ways alters the interpretability of the metric and invalidates the direct comparison to the metrics reported for virtuosoNet. However, we can still compare model outputs qualitatively. Due to time and resource constraints, no sophisticated qualitative evaluation method was used to conduct this comparison. Our qualitative evaluation relied mostly on the author's own listening tests and internal discussions about the quality of the performances and potential places for error. The listening tests were conducted by comparing performances of 6 different compositions for each model both audibly and visually using the Digital Audio Workspace (DAW) software Logic Pro X. The performances are listed in table \ref{tab:compositions} No numerical or statistical observations are reported given the fact that all evaluation was done by the author and represents an inherent bias which and cannot be seen as robust or reliable for further analysis. We do however provide some observations related to our qualitative evaluation along with our own interpretation of them, if for no other reason than to guide the intuition behind more robust methods for future work. This analysis is given in section \rtodo{Add reference}.
+% lrv for learning rate value. Putting in command so that it doesn't ruin table alignment
+\newcommand{\lrv}{\num{3e-5}}
 
 \begin{table}
-    \setlength{\extrarowheight}{3pt}
+    \setlength{\tabcolsep}{0.4em}
+    \setlength{\extrarowheight}{7pt}
+    \sisetup{round-mode=places}
     \begin{center}
-    \begin{tabular}[]{| l | l |}
-        \hline
-        Composer & Composition \\ 
+    \begin{tabular}{| c c | c c c c c c | S[round-precision=2] S[round-precision=2] S[round-precision=2] S[round-precision=2] S[round-precision=2] S[round-precision=2] |}
         \hline 
-        Bach & Prelude in E Minor, BWV 855 \\
-        Bach & Prelude in F-sharp Major, BWV 858  \\ 
-        Chopin & Etude Op. 10, No. 12 \\ 
-        Chopin & Fantaisie-Imropmptu \\ 
-        Beethoven & Piano Sonata No. 17 First Movement \\ 
-        Mozart & Piano Sonata No. 11 First Movement \\ 
+        \multicolumn{8}{|c|}{Model Configuration} & \multicolumn{6}{c|}{Results in MSE}\\
+        \hline
+        \nep & \mn & \nl & \dhid & \drop & \lr & \clip & \nh & Tot & \temp{} & \vel{} & {\dev{}} & \art{} & \ped{} \\ 
+        % \nep & \mn & \nl & \dhid & \drop & \lr & \clip & \nh & 1 & 1 & 1 & 1 & 1 & 1 \\ 
+        \hline 
+123 & LSTM   & 3  & 256  & 0.1 & 0.1     & 0.5 &    & \a[1] & \a[2] & \a[3] & \a[4] & \a[5] & \a[6] \\ 
+\hline
+147 & T-BL   & 6  & 256  & 0.1 & 3e-5    & 0.5 & 6  & \b[1] & \b[2] & \b[3] & \b[4] & \b[5] & \b[6] \\
+169 &        &    & 128  &     &         &     &    & \c[1] & \c[2] & \c[3] & \c[4] & \c[5] & \c[6] \\
+128 &        &    & 528  &     &         &     &    & \d[1] & \d[2] & \d[3] & \d[4] & \d[5] & \d[6] \\
+133 &        &    & 1024 &     &         &     &    & \e[1] & \e[2] & \e[3] & \e[4] & \e[5] & \e[6] \\
+118 &        & 12 &      &     &         &     &    & \f[1] & \f[2] & \f[3] & \f[4] & \f[5] & \f[6] \\
+181 &        & 24 &      &     &         &     &    & \g[1] & \g[2] & \g[3] & \g[4] & \g[5] & \g[6] \\
+132 &        &    &      &     &         &     & 13 & \h[1] & \h[2] & \h[3] & \h[4] & \h[5] & \h[6] \\
+171 &        &    &      & 0.2 &         &     &    & \i[1] & \i[2] & \i[3] & \i[4] & \i[5] & \i[6] \\
+173 &        &    &      &     & 0.01    &     &    & \j[1] & \j[2] & \j[3] & \j[4] & \j[5] & \j[6] \\
+188 &        &    &      &     &         &     & 26 & \k[1] & \k[2] & \k[3] & \k[4] & \k[5] & \k[6] \\
+134 &        & 12 & 528  &     &         &     &    & \l[1] & \l[2] & \l[3] & \l[4] & \l[5] & \l[6] \\
+190 &        & 12 &      &     &         &     & 13 & \m[1] & \m[2] & \m[3] & \m[4] & \m[5] & \m[6] \\
+135 &        & 12 & 528  &     &         &     & 13 & \n[1] & \n[2] & \n[3] & \n[4] & \n[5] & \n[6] \\
+125 &        & 24 & 528  &     &         &     &    & \o[1] & \o[2] & \o[3] & \o[4] & \o[5] & \o[6] \\
+\hline
+& HAN-BL &  - &  -   &  -  &    -    &  -  &  - & \vbl[1] & \vbl[2] & \vbl[3] & \vbl[4] & \vbl[5] & \vbl[6] \\
+& HAN-S  &  - &  -   &  -  &    -    &  -  &  - & \vs[1]  & \vs[2]  & \vs[3]  & \vs[4]  & \vs[5]  & \vs[6] \\
+& HAN-M  &  - &  -   &  -  &    -    &  -  &  - & \vm[1]  & \vm[2]  & \vm[3]  & \vm[4]  & \vm[5]  & \vm[6] \\
         \hline
     \end{tabular}
-    \caption{The compositions used for the qualitative evaluation of our models. All scores come in the form of MusicXML from MuseScore. None of the scores were present in the training data}
-    \label{tab:compositions}
+    \caption{A comparison of 3 different families of EMP generation models: virtuosoNet models, Transformer models, and our LSTM baseline models. The left side of the table presents the configuration for each of the models, exluding the virtuosoNet models which are present in other works \cite{jeong2019graph,jeong2019virtuosonet}. \nep{} is the ID of the Neptune experiment, \nl{} is the number of layers, \dhid{} is the dimension of the hidden layers, \drop{} is the dropout, \lr{} is the learning rate, \clip{} is the gradient clip, and \nh{} is the number of attention heads. The right side of the table presents the MSE results for all models along the five different expressive dimensions mentioned in \ref{sec:qualitative-eval-problems}, as well as the total MSE which is an aggregation of all the individual expressive features. The entries for the HAN models come from virtuosoNet and are given in \cite{jeong2019virtuosonet} }
+    \label{tab:quantitative}
     \end{center}
 \end{table}
+\newcommand{\tm}[1]{$T_{N_{#1}}$}
 
+The first major implication of the results is that the Transformer model easily outperforms the baseline LSTM but does not outperform the \vnet{} models. Within the Transformer models, the best performing model uses all of the same baseline Transformer parameters, except for a major increase in the hidden layer's dimensionality (model \tm{133}). Other models that perform well include those which only increase the number of attention heads (\tm{132} and \tm{26}) and those with an increase across several different parameters (\tm{135}). It appears that increasing the number of layers degrades performance (\tm{118}, \tm{181}, \tm{125}), and so does increasing the dropout and learning rates (\tm{171}, \tm{173}). 
+
+Although we see improvements by increasing the hidden dimension and number of attention heads, the performance improvements aren't significant. There is only a difference of 0.03 in MSE between the best performing Transformer model and the Transformer baseline. In contrast, there is a difference of 0.11 between the best Transformer model and the best HAN model. An initial interpretation of these results would indicate that a Transformer model can't even match the existing state of the art in EMP generation (let alone beat it). As we discuss in later sections, this interpretation of results is not necessarily valid. 
