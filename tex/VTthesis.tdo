@@ -12,8 +12,6 @@
 \contentsline {todo}{possibly add figure}{38}{section*.26}%
 \contentsline {todo}{Figure: Our model architecture. Show the standard transformer layers with a simple decoder layer on top}{43}{figure.caption.27}%
 \contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{51}{figure.caption.30}%
-\contentsline {todo}{Add section about Music Transformer}{59}{section*.32}%
-\contentsline {todo}{Continue discussion of better evaluation methods. Need to do more research on current methods}{61}{section*.33}%
-\contentsline {todo}{Create or find visualization}{66}{section*.35}%
-\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{67}{section*.36}%
-\contentsline {todo}{create or find visualization}{67}{section*.37}%
+\contentsline {todo}{Create or find visualization}{64}{section*.33}%
+\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{65}{section*.34}%
+\contentsline {todo}{create or find visualization}{65}{section*.35}%
