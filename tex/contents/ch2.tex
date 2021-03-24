@@ -1,12 +1,15 @@
+% \graphicspath{{tex/figs/ch2}}
+
 \chapter{Background: Expressive Performance}\label{ch:ch2}
 This project is based upon two major research components. The first is the MIR problem domain of expressive musical performance, and the second is the modeling domain of Transformers. In this chapter, we will introduce and discuss EMP. In chapter \ref{ch:ch3} we'll do the same for the Transformer. 
 
-Expressive musical performance is a small subset of Music Information Retrieval research, which we broadly categorized into two separate tasks: the first is developing computational methods for musical analysis, the second is developing computational methods for music generation. We are interested in generative models, although it is worthwhile to note that there is considerable overlap between the two areas\footnote{Creating a performance generation system is useful for performance analysis as long as the generation system is interpretable. The reverse is also true. Analysis provides insight to generation, and generation provides insight to analysis}. A proper knowledge of the entire musical generation process as a whole is necessary to understand how EMP generation models work. \citet{ji2020comprehensive} break the generation process into three stages with four different roles that interact with that process at each stage. Figure \ref{fig:generation_process} shows each step in the process as well as the agents that participate. 
+Expressive musical performance is a small subset of Music Information Retrieval research, which we broadly categorized into two separate tasks: the first is developing computational methods for musical analysis, the second is developing computational methods for music generation. We are interested in generative models, although it is worthwhile to note that there is considerable overlap between the two areas\footnote{Creating a performance generation system is useful for performance analysis as long as the generation system is interpretable. The reverse is also true. Analysis provides insight to generation, and generation provides insight to analysis}. A proper knowledge of the entire musical generation process as a whole is necessary to understand how EMP generation models work. \citet{ji2020comprehensive} break the generation process into three stages with four different roles that interact with that process at each stage. Figure \ref{fig:generation_process} shows each step in the process as well as the agents that participate\footnote{This figure is our reproduction of a similar image presented by \citet{ji2020comprehensive}}. 
 
 \begin{figure}
     \centering
-    \missingfigure{Image that shows different components of musical generation process}
-    \caption{The first step of musical generation is composition, shown as a score in the figure. The second is performance, which is our area of interest. The third is the production of sound. Each different agent: composer, performer, instrument, and listener, can be thought of as a separate computational model in the generation process}
+    \includegraphics[width=1\linewidth]{figs/ch2/musical_generation.jpg}
+    % \missingfigure{Image that shows different components of musical generation process}
+    \caption{The first step of musical generation is composition, shown as a score in the figure. The second is performance, our area of interest, and is indicated by a MIDI file's piano roll representation. The third is the production of sound, shown as a raw audio wave. Each different agent: composer, performer, instrument, and listener, can be thought of as a separate computational model in the generation process}
     \label{fig:generation_process}
 \end{figure}
 
@@ -20,8 +23,9 @@ Scores are symbolic representations of a musical composition. They are expressed
 
 \begin{figure}
     \centering
-    \missingfigure{Image that shows a sample score with colorized annotations that show the different hierarchical levels}
-    \caption{Caption will be dependent on the image.}
+    \includegraphics[width=1\linewidth]{figs/ch2/score_hierarchy.jpg}
+    % \missingfigure{Image that shows a sample score with colorized annotations that show the different hierarchical levels}
+    \caption{A sample hierarchy of a score delineated by different colors. The green shows the low level, which includes the pitch and timing of every note. The red represents the mid-level which shows dynamics and tempo information about local musical substructures. The tan color illustrates the high level, and includes the key and time signatures.}
     \label{fig:score_hierarchy}
 \end{figure}
 
