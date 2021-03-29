@@ -98,6 +98,27 @@
 % The following sets up the document for the main part of the thesis or dissertation. Do not comment out or remove this line.
 	\mainmatter
 
+	% Adding table macros here that are used in various different sections
+	% model configuration
+	\newcommand{\nep}{$N_{id}$}
+	\newcommand{\mn}{$M$} % mn for 'model name'
+	\newcommand{\nl}{$L$} % nl: num layers
+	\newcommand{\dhid}{$d_{hid}$} % dhid: dimension hidden size
+	\newcommand{\drop}{$D$} % D: Dropout
+	\newcommand{\lr}{$LR$} % LR: Learning Rate
+	\newcommand{\clip}{$C$} % C: gradient clip
+	\newcommand{\nh}{$H$} % nh: num heads
+
+	% Expressive features
+	\newcommand{\temp}{$t$}
+	\newcommand{\vel}{$v$}
+	\newcommand{\dev}{$d$}
+	\newcommand{\art}{$a$}
+	\newcommand{\ped}{$p$}
+
+	\newcommand{\tm}[1]{$T_{N_{#1}}$}
+
+
 	%now go ahead and start writing your thesis
 	\listoftodos
 	\input{contents/ch1_intro}
