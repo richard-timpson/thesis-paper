@@ -21,14 +21,6 @@ Figure \ref{fig:generation_process} shows that a performer interacts with a comp
 \section{Scores}\label{sec:scores}
 Scores are symbolic representations of a musical composition. They are expressed through a language of symbolic notation used to express musical ideas and information. Scores present this information in a hierarchical structure with different levels of musical detail at each level. Figure \ref{fig:score_hierarchy} shows a sample score and the different hierarchical levels of information that it contains
 
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{figs/ch2/score_hierarchy.jpg}
-    % \missingfigure{Image that shows a sample score with colorized annotations that show the different hierarchical levels}
-    \caption{A sample hierarchy of a score delineated by different colors. The green shows the low level, which includes the pitch and timing of every note. The red represents the mid-level which shows dynamics and tempo information about local musical substructures. The tan color illustrates the high level, and includes the key and time signatures.}
-    \label{fig:score_hierarchy}
-\end{figure}
-
 %mnot for musical notation. Bold and emphasize at once
 \newcommand{\mnot}[1]{\textbf{\emph{#1}}}
 
@@ -38,6 +30,15 @@ The middle level contains information related to certain substructures within th
 Although dynamic markings are the most common at this level, it is also possible to see score markings for all other musical features, such as local tempo or articulation of a certain substructure. Perhaps the most important score marking at this level is that of a phrase, which is a marking that indicates that a group of notes should be interpreted as belonging to a singular musical idea and that each note should fit within the context of the phrase as a whole. A phrase can be expressed through all of the different aforementioned musical features, including the tempo, timing, dynamics, and articulation of the notes.
 
 The highest level contains meta-information that relates to the entire composition as a whole. This information typically includes the key signature and time signature, as well as the global tempo for the entire piece, most commonly represented as BPM. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figs/ch2/score_hierarchy.jpg}
+    % \missingfigure{Image that shows a sample score with colorized annotations that show the different hierarchical levels}
+    \caption{A sample hierarchy of a score delineated by different colors. The green shows the low level, which includes the pitch and timing of every note. The red represents the mid-level which shows dynamics and tempo information about local musical substructures. The tan color illustrates the high level, and includes the key and time signatures.}
+    \label{fig:score_hierarchy}
+\end{figure}
+
 
 % \subsection{Score Features}
 % \rtodo[,inline]{This entire section needs work. Include some detailed information but refer reader to chacon's thesis for a full breakdown. Possibly mention features from virtusoNet}.
@@ -59,9 +60,17 @@ Pedaling in piano performance is another important feature of performance that i
 % For western classical solo piano music, performance features are relatively simple compared to the score features as well as to other instruments. Most EMP models use the different aspects of a piano performance as explained in section \ref{sec:performance} for their data features, including the pitch, tempo, timing (or timing deviation), articulation, and pedal. Although at an abstract level the features are the same, there are different numerical methods used to describe each of the different aspects. These are presented in \rtodo[,inline]{Add reference to relevant work section that goes over the different elements. This information may belong better here and then referenced in the relevant work section}. 
 
 \section{Data}
-The data required for EMP generation includes a digital representation of a score and a corresponding performance. MusicXML, a text-based representation of a composition, is the most common data format for a score. Performances could directly be represented through raw audio, which is widely available on the internet. Instead of audio however, an intermediate data form, MIDI, is commonly used to constitute the performance. MIDI is an event-based data format and software interface that contains information about different aspects of a recorded performance. This information includes the recorded timing, pitch, and volume of every note, the instrument used, and pedal information (specifically in the case of piano performance). 
+The data required for EMP generation includes a digital representation of a score and a corresponding performance. MusicXML, a text-based representation of a composition, is the most common data format for a score. Performances could directly be represented through raw audio, which is widely available on the internet. Instead of audio however, an intermediate data form, MIDI, is commonly used to constitute the performance. MIDI is an event-based data format and software interface that contains information about different aspects of a recorded performance. MIDI defines NOTE-ON and NOTE-OFF events. Each event specifies the pitch and velocity () of the note. MIDI also defines control channels which is a stream of data separate from the NOTE-ON and NOTE-OFF events. The control channels contain the information for the values of different pedals throughout a performance. Figure \ref{fig:midi} shows a visualization of a MIDI performance. 
 
 There are several reasons for the preference of MIDI over raw audio. The first is that audio data is inherently noisy, sparse, and larger in its dimensionality and size. Using audio to represent performance requires a significant compression of natural frequencies into more abstract musical representations such as pitch -- MIDI natively contains these abstractions. MIDI also better aligns with the generation process outlined in \ref{fig:generation_process} in which performance is seen separate from sound synthesis and allows computational models to define such boundaries easily. In the full generation process, a different model would be used to take the performance data in MIDI and synthesize it into raw audio presented to the listener. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figs/ch2/midi.jpg}
+    % \missingfigure{Show why score to performance alignment matching is necessary.}
+    \caption{A visualization of a MIDI performance taken as a screenshot from Logic Pro X. Each NOTE-ON and NOTE-OFF event holds the information about the pitch and velocity. A separate control channel encodes the value of the sustain pedal}
+    \label{fig:midi}
+\end{figure}
 
 Both MIDI and MusicXML contain all of the required information to represent all of the musical components of both a score and a performance, including pitch, tempo, timing, articulation, deviation, and pedal. See appendix \ref{ase:app_one_sect_2} for more information on both MusicXML and MIDI. 
 
@@ -69,7 +78,7 @@ Computational models that deal with the relationship between scores and performa
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{figs/ch2/score_2_perf_alignment.jpg}
+    \includegraphics[width=0.85\linewidth]{figs/ch2/score_2_perf_alignment.jpg}
     % \missingfigure{Show why score to performance alignment matching is necessary.}
     \caption{The top two images are piano roll representations of the first measure of Bach's Prelude in C Minor BWV 847, recorded in MIDI by the author. Also shown is a score of the same composition. The first performance is aligned to the second performance. The second performance is aligned to the score. Notice the marked difference in tempo between the two performances. This is an example that illustrates why score to performance alignment is necessary. Different performances of the same score can significantly vary in their note onset, note duration, and note velocity values. As such, it is necessary to create an alignment between every performance and its corresponding score.}
     \label{fig:alignment}
@@ -115,7 +124,15 @@ The evaluation of computational models, specifically for EMP models, is typicall
 \subsubsection{Quantitative Evaluation}
 There are several different metrics commonly used in the evaluation process, all of which are specific to the type of data and problem domain the model fits inside. Our model is a regression model, which we cover in chapter \ref{ch:ch5}, and so we present some standard metrics used to evaluate regressive EMP models. 
 
-The two common metrics used for evaluation and regression are Mean-Squared-Error (MSE) and the Coefficient of Determintation (commonly abbreiated as $R^2$). MSE is used to measure the difference between a prediction and an actual observed target value, and can be denoted as $MSE = \frac{1}{n}\sum_{i=1}^{n}(Y_i - \hat{Y_i})^2$, where $Y_i$ is the observed value at time step $i$, and $\hat{Y_1}$ is the predicted value. $R^2$ is a probablistic measure of the linear correlation between variables $X$ and $Y$, and is denoted as $\rho_{X,Y} = \frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}$ where cov indicates the covariance and $\sigma$ indicates the standard deviation.
+The two common metrics used for evaluation and regression are Mean-Squared-Error (MSE) and the Coefficient of Determination (commonly abbreviated as $R^2$). MSE is used to measure the difference between a prediction and an actual observed target value and is denoted as 
+\begin{align*}
+MSE = \frac{1}{n}\sum_{i=1}^{n}(Y_i - \hat{Y_i})^2,
+\end{align*}
+where $Y_i$ is the observed value at time step $i$, and $\hat{Y_1}$ is the predicted value. $R^2$ is a probablistic measure of the linear correlation between variables $X$ and $Y$, and is denoted as 
+\begin{align*}
+\rho_{X,Y} = \frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}   
+\end{align*}
+where $cov$ indicates the covariance and $\sigma$ indicates the standard deviation.
 
 \subsubsection{Qualitative}
 Qualitative evaluation in EMP is most often conducted by presenting computationally generated performance to human listeners and gathering feedback and judgment. Although there have been efforts to standardize this evaluation process, the qualitative evaluation methods of different EMP models significantly vary. The lack of consistency in the evaluative methods makes reproducing experiment results difficult in EMP research, but it is still perhaps the best way to evaluate EMP models today. 

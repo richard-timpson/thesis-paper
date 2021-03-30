@@ -56,11 +56,27 @@ The name ``Basis Model'' is derived from the BM frameworks definition of ``Basis
 % mp for matched performance
 \newcommand{\mperf}{\beta_{\Omega}}
 
-The BM framework defines $\Omega$ as a space containing aspects of a score. A score basis function $\varphi: \Omega \rightarrow \mathbb{R}$ which will map all elements of a score into some numerical expression based on an aspect of the score. The value of a score basis function for one element $x_i \in \Omega$ is denoted as $\varphi (x_i)$. For example, the score basis function for pitch, $\varphi_{pitch} (n_i) = \textrm{MIDI}_{\textrm{pitch}}(n_i)$ will represent the pitch of a given note as the numerical MIDI pitch. The basis function for dynamic markings, such as forte, would be defined as $\varphi_{\mnot{f}} (n_i) = forte(n_i)$, where $forte(n_i)$ returns 1 if the score element is marked with $\mnot{f}$, and 0 if it doesn't. 
+The BM framework defines $\Omega$ as a space containing aspects of a score. A score basis function $\varphi: \Omega \rightarrow \mathbb{R}$ which will map all elements of a score into some numerical expression based on an aspect of the score. The value of a score basis function for one element $x_i \in \Omega$ is denoted as $\varphi (x_i)$. For example, the score basis function for pitch, 
+\begin{align*}
+\varphi_{pitch} (n_i) = \textrm{MIDI}_{\textrm{pitch}}(n_i)   
+\end{align*}
+will represent the pitch of a given note as the numerical MIDI pitch. The basis function for dynamic markings, such as forte, would be defined as 
+\begin{align*}
+\varphi_{\mnot{f}} (n_i) = forte(n_i)   
+\end{align*}
+where $forte(n_i)$ returns 1 if the score element is marked with $\mnot{f}$, and 0 if it doesn't. 
 
-Similarly to basis functions, the BM framework defines \emph{expressive parameters} which are mathematical encodings of information taken from a performance matched to a score, which is denoted as $\mperf$. An \emph{expressive encoding function} $y: \mperf \rightarrow \mathbb{R}$ will encode an event in a matched performance into an \emph{expressive parameter}. The value of each parameter corresponding to a score element $x_{i} \in \Omega$ is denoted as $y(x_i \vert \mperf) = t_i$ where $t_i \in \mathbb{R}$. Example encoding functions are $y_{\textrm{dyn}}(n_i \vert \mperf) = \textrm{MIDI}_{\textrm{vel}}(n_i)$ and $y_{\textrm{tempo}}(n_i \vert \mperf) = \textrm{bpm}(n_i)$, which represent expressive dynamics as MIDI velocity and expressive tempo as a local measure of bpm. 
+Similarly to basis functions, the BM framework defines \emph{expressive parameters} which are mathematical encodings of information taken from a performance matched to a score, which is denoted as $\mperf$. An \emph{expressive encoding function} $y: \mperf \rightarrow \mathbb{R}$ will encode an event in a matched performance into an \emph{expressive parameter}. The value of each parameter corresponding to a score element $x_{i} \in \Omega$ is denoted as $y(x_i \vert \mperf) = t_i$ where $t_i \in \mathbb{R}$. Example encoding functions are 
+\begin{align*}
+y_{\textrm{dyn}}(n_i \vert \mperf) = \textrm{MIDI}_{\textrm{vel}}(n_i) \textrm{ and } y_{\textrm{tempo}}(n_i \vert \mperf) = \textrm{bpm}(n_i)
+\end{align*}
+which represent expressive dynamics as MIDI velocity and expressive tempo as a local measure of bpm. 
 
-With this definition of score basis fuctions and expressive encoding functions, the BM framework defines a score representation model $F = \{\varphi_1, ..., \varphi_m\}$ and a performance representation model $Y = \{y_1, ..., y_{N_y}\}$ which both contain a set of functions used to define the score and performance encoding. The score representation model can then be used to calculate the score features for every element $x_i \in \Omega$. This score representation $\Phi$ is a real valued matrix in $\mathbb{R}^{N \times M}$, where the i-th index indicates a single element of the score and the j-th index represents the value of a single score basis function for that score element. The performance representation model can render a performance representation $T$ which is calculated by running every score element along with a match performed through each expressive encoding function as $Y(x_i \vert \mperf) = (y_1(x_i \vert \mperf), ... ,y_{N_y}(x_i \vert \mperf))$. The performance representation $T$ is a real valued matrix in $\mathbb{R}^{N \times N_y}$ and composed of $N$ vectors defined by $Y(x_i \vert \mperf)$. 
+With this definition of score basis fuctions and expressive encoding functions, the BM framework defines a score representation model $F = \{\varphi_1, ..., \varphi_m\}$ and a performance representation model $Y = \{y_1, ..., y_{N_y}\}$ which both contain a set of functions used to define the score and performance encoding. The score representation model can then be used to calculate the score features for every element $x_i \in \Omega$. This score representation $\Phi$ is a real valued matrix in $\mathbb{R}^{N \times M}$, where the i-th index indicates a single element of the score and the j-th index represents the value of a single score basis function for that score element. The performance representation model can render a performance representation $T$ which is calculated by running every score element along with a match performed through each expressive encoding function as 
+\begin{align*}
+Y(x_i \vert \mperf) = (y_1(x_i \vert \mperf), ... ,y_{N_y}(x_i \vert \mperf)).
+\end{align*}
+The performance representation $T$ is a real valued matrix in $\mathbb{R}^{N \times N_y}$ and composed of $N$ vectors defined by $Y(x_i \vert \mperf)$. 
 
 There are many possible definitions for both basis and expressive encoding functions. Here we give some example functions used in the first iteration of the BM framework -- refer to \citet{eduardo2018computational} for a full list. 
 
@@ -72,7 +88,10 @@ There are many possible definitions for both basis and expressive encoding funct
 % midip for midi pithc
 \newcommand{\midip}{\textrm{pitch}}
 \begin{itemize}
-    \item Polynomial Pitch Model: This model is presented by \citet{grachten2012linear} and describes the dependency of expressive dynamics (MIDI velocity) on pitch. This model defines three different pitch functions. $$\pfuncnorm{} = \frac{\midip (n_i)}{127} \quad \pfunc{2} = \left(\frac{\midip(n_i)}{127}\right)^2 \quad \pfunc{3} = \left(\frac{\midip (n_i)}{127}\right)^3$$
+    \item Polynomial Pitch Model: This model is presented by \citet{grachten2012linear} and describes the dependency of expressive dynamics (MIDI velocity) on pitch. This model defines three different pitch functions. 
+    \begin{align*}
+    \pfuncnorm{} = \frac{\midip (n_i)}{127} \quad \pfunc{2} = \left(\frac{\midip(n_i)}{127}\right)^2 \quad \pfunc{3} = \left(\frac{\midip (n_i)}{127}\right)^3    
+    \end{align*}
     \item Dynamics Markings: These are functions which encode dynamics markings such as \mnot{p}, \mnot{f}, and \mnot{crescendo}. There are three different types of dynamics encoding functions. The first is an impulse function  which is a binary indicator of a dynamic marking for a single note (this applies to single note marking such as an accent \wedge). The second is a ramp function which gradually increases or decreases a value from note to note (useful for \mnot{crescendo} or \mnot{decresencod} markings which apply to a specified number of notes\rtodo{add figure}). The last is a constant function which is either on or off for a set of notes at a time (useful for markings such as \mnot{p} or \mnot{f} which apply to a group of notes at a time). 
     \item Inter-Onset-Interval (IOI): This includes a total of six basis functions which include the difference in onset times of a group of notes belonging to a particular note onset $o_i$ an its surrounding note onsets. The IOI is calculated for the onsets between $(i - 2, i-3), (i-1, i-2), (i, i-1), (i, i+1), (i+1, i+2), \textrm{ and } (i+2, i+3)$. These functions provide context for the local tempo structure of the composition. 
     \item Duration: A basis function which encodes the notated duration of a single note. 
@@ -83,10 +102,29 @@ There are many possible definitions for both basis and expressive encoding funct
 \newcommand{\iois}{\textrm{IOI}_{o(n_i)}^{score}}
 \newcommand{\ioip}{\textrm{IOI}_{o(n_i)}^{perf}}
 \begin{itemize}
-    \item MIDI Velocity: This encoding function uses the recorded hammer-velocities of the performed notes as a proxy for expressive dynamics. The loudness of a note is estimated as a normalized MIDI velocity value. $$y_{vel}(n_i) = \frac{\textrm{vel}(n_i)}{127}$$
-    \item log BPR: The Beat Period Ratio (BPR) is a way to define the local tempo calculated for every note. It uses the Beat Period (BP), defined as $$BP(n_i) = \frac{\ioip}{\iois}$$ where $\ioip$ and $\iois$ are the IOI for the performance and score onsets at note $n_i$. The final log BPR is defined as $$y_{\textrm{log bpr}}(n_i) = log_2\frac{\textrm{BP}(n_i)}{\textrm{BP}_{ave}}$$, where $\textrm{BP}_{ave}$ is the average BP over the entire piece. This normalizes the local BPR definition according the global tempo of the piece. 
-    \item Timing (deviation): Whereas the log BPR defined above encodes the tempo of a performance (how ``fast'' it is being played), the function for timing encodes expressive timing deviations from the indicated timing of a score. It is defined as $$y_{\textrm{tim}} = \hat{o}^{perf}(n_i) - \textrm{onset}_{perf}(ni)$$ where $\hat{o}^{perf}(n_i)$ is an estimation of the ``correct'' onset time, and $\textrm{onset}_{perf}(ni)$ is the actual observed onset of a note (see section 3.3.1 of \citet{eduardo2018computational} for a full working example). 
-    \item log Articulation: Articulation is a measure of the lengthening or shortening of a performed note duration relative to a noted duration and the current local tempo. The articulation is computed by dividing the measured note duration by the duration given by the score. It is defined as $$y_{\textrm{log art}}(n_i) = \textrm{log}_2\frac{\textrm{duration}_{perf}(n_i)}{\textrm{duration}(n_i)BP(n_i)}$$
+    \item MIDI Velocity: This encoding function uses the recorded hammer-velocities of the performed notes as a proxy for expressive dynamics. The loudness of a note is estimated as a normalized MIDI velocity value. 
+    \begin{align*}
+    y_{vel}(n_i) = \frac{\textrm{vel}(n_i)}{127}
+    \end{align*}
+    \item log BPR: The Beat Period Ratio (BPR) is a way to define the local tempo calculated for every note. It uses the Beat Period (BP), defined as 
+        \begin{align*}
+        BP(n_i) = \frac{\ioip}{\iois}
+        \end{align*}
+    where $\ioip$ and $\iois$ are the IOI for the performance and score onsets at note $n_i$. The final log BPR is defined as 
+        \begin{align*}
+        y_{\textrm{log bpr}}(n_i) = log_2\frac{\textrm{BP}(n_i)}{\textrm{BP}_{ave}},
+        \end{align*}
+    where $\textrm{BP}_{ave}$ is the average BP over the entire piece. This normalizes the local BPR definition according the global tempo of the piece. 
+    \item Timing (deviation): Whereas the log BPR defined above encodes the tempo of a performance (how ``fast'' it is being played), the function for timing encodes expressive timing deviations from the indicated timing of a score. It is defined as 
+        \begin{align*}
+        y_{\textrm{tim}} = \hat{o}^{perf}(n_i) - \textrm{onset}_{perf}(ni)
+        \end{align*}
+     where $\hat{o}^{perf}(n_i)$ is an estimation of the ``correct'' onset time, and $\textrm{onset}_{perf}(ni)$ is the actual observed onset of a note (see section 3.3.1 of \citet{eduardo2018computational} for a full working example). 
+    \item log Articulation: Articulation is a measure of the lengthening or shortening of a performed note duration relative to a noted duration and the current local tempo. The articulation is computed by dividing the measured note duration by the duration given by the score. It is defined as 
+        \begin{align*}
+        y_{\textrm{log art}}(n_i) = \textrm{log}_2\frac{\textrm{duration}_{perf}(n_i)}{\textrm{duration}(n_i)BP(n_i)}
+        \end{align*}
+    
 \end{itemize}
 
 \subsubsection{Models}

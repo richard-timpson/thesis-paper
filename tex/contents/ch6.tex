@@ -49,7 +49,24 @@ The original MSE used to train \vnet{} (which we call \vnet{} MSE) assumed that 
 % al for alpha
 \newcommand{\al}[1]{\alpha_{#1}}
 
-We define the output vector as an 11 dimensional vector $\rvec{v} = \{t, v, d, a, p_0, p_1, p_2, p_3, p_4, p_5, p_6\}$ where $t$, $v$, $d$, and $a$ represent tempo, velocity, deviation, and articulation respectively, and $p_i$ represents a single component of the pedal. For a predicted output vector $\vn$ and the target output vector $\vh$, \vnetf{} MSE loss is $MSE(\vn, \vh) = \frac{1}{n}\sum_{i=1}^{n}(\vn_i - \vh_i)^2$. This can also be re-written as $MSE(\vn, \vh) = \frac{1}{11}[\df{t} + \df{v} + \df{d} + \df{a} + \sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2]$. We introduce 5 different weight values: $\al{t}, \al{v}, \al{d}, \al{a}$ and $\al{p}$. Our weighted MSE loss is defined as $W_{MSE}(\vn, \vh) = \frac{1}{\al{t} + \al{v} + \al{d} + \al{a} + \al{p}}[\al{t}\df{t} + \al{v}\df{v} + \al{d}\df{d} + \al{a}\df{a} + \al{p}\sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2 ]$. \vnetf{} MSE can be seen as the weighted MSE with $\al{t}, \al{v}, \al{d}, \al{a} = 1$, and $\al{p} = 7$. 
+We define the output vector as an 11 dimensional vector 
+\begin{align*}
+\rvec{v} = \{t, v, d, a, p_0, p_1, p_2, p_3, p_4, p_5, p_6\}   
+\end{align*}
+where $t$, $v$, $d$, and $a$ represent tempo, velocity, deviation, and articulation respectively, and $p_i$ represents a single component of the pedal. For a predicted output vector $\vn$ and the target output vector $\vh$, \vnetf{} MSE loss is 
+\begin{align*}
+MSE(\vn, \vh) = \frac{1}{n}\sum_{i=1}^{n}(\vn_i - \vh_i)^2   
+\end{align*}
+This can also be re-written as 
+\begin{align*}
+MSE(\vn, \vh) = \frac{1}{11}[\df{t} + \df{v} + \df{d} + \df{a} + \sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2]   
+\end{align*}
+We introduce 5 different weight values: $\al{t}, \al{v}, \al{d}, \al{a}$ and $\al{p}$. Our weighted MSE loss is defined as 
+\begin{align*}
+W_{MSE}(\vn, \vh) = \frac{1}{\al{t} + \al{v} + \al{d} + \al{a} + \al{p}}[\al{t}\df{t} + \al{v}\df{v} + \al{d}\df{d} + \\
+\al{a}\df{a} + \al{p}\sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2 ]   
+\end{align*}
+\vnetf{} MSE can be seen as the weighted MSE with $\al{t}, \al{v}, \al{d}, \al{a} = 1$, and $\al{p} = 7$. 
 
 This loss formulation shows the heavy bias towards the pedal feature. Is this is the right way to conceptualize what a `good' performance is? Would a different configuration of the expressive feature weights lead to a better outcome? Answering such questions in a straightforward and `objective' according to a quantitative metric is not plausible with our weighted MSE. Every different configuration of weights changes the evaluation metric itself, and therefore any direct metric comparison across experiments is meaningless. Knowing this, we continued to experiment with different weight configurations relying on our qualitative evaluation to determine performance quality. We present our observations from listening to model performances, with and without the change in MSE. 
 
@@ -66,14 +83,14 @@ Our first general observation given our new loss evaluation is that the two most
 We also notice that the tempo and timing of the Transformer models are more dynamic than the LSTM models, both for our LSTM baseline and the \vnet{} models. For some models, the variability in timing seemed to be a good thing, while for others, it was so bad that it almost sounded like the model was still ``learning'' how to play. The tempo for all LSTM based models (except for some slight variations in the performances from HAN-M \footnote{Performances for the HAN-M are available at \href{https://ui.neptune.ai/richt3211/thesis/e/THESIS-162/artifacts}{$N_{126}$}}) was extraordinarily consistent and non-changing to the point of sounding robotic and mundane% 
 \footnote{The resulting mundande sound is similar to a deadpan performance}. On one extreme with Transformer models, the highly dynamic tempo at times sounds like a real performer making mistakes \footnote{See \href{https://ui.neptune.ai/richt3211/thesis/e/THESIS-86/artifacts}{$T_{N_{86}}$ Piano Sonata 11}}. The other extreme is performances of some LSTM models that are so mundane they don't sound ``human'' at all \footnote{See \href{https://ui.neptune.ai/richt3211/thesis/e/THESIS-123/artifacts}{\lm{123} Piano Sonata 11}}. 
 
-The pedaling in general of all models was mediocre at best. This observation is consistent with those of~\citet{jeong2019virtuosonet}. There are models with decent performance pedaling quality that somewhat follows the natural cadence of the composition but still do not match pedal in actual human performance. Figure \ref{fig:pedal-difference} shows a visual comparison of the sustain pedal usage in different performances. 
+The pedaling in general of all models was mediocre at best. This observation is consistent with those of~\citet{jeong2019virtuosonet}. There are models with decent performance pedaling quality that somewhat follows the natural cadence of the composition but still do not match pedal in actual human performance. %Figure \ref{fig:pedal-difference} shows a visual comparison of the sustain pedal usage in different performances. 
 
-\begin{figure}
-    \centering
-    \missingfigure{Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}
-    \caption{Test Caption}
-    \label{fig:pedal-difference}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \missingfigure{Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}
+%     \caption{Test Caption}
+%     \label{fig:pedal-difference}
+% \end{figure}
 
 % The importance of tempo and pedal was part of the intuition that led to our formulation of the weighted MSE by expressive parameter defined in \ref{sec:qualitative-eval-problems}. 
 Our first experiments with the weighted MSE used an even weight distribution. We ran a few additional experiments with the tempo and pedal weights higher than others, along with some model size changes. Table \ref{tab:qualitative-models} shows a full description of the models and their parameters.
