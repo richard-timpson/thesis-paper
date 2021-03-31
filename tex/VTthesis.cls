@@ -337,7 +337,7 @@ frame=single,
 \pagestyle{empty} % Suppresses page numbers for all abstract pages.
   \begin{center}
   \noindent {\textbf{\Large \@title}} \\[24pt]
-  \noindent{\large \@author} \\[24pt]
+  % \noindent{\large \@author} \\[24pt]
   
   \textbf{\large ABSTRACT}
   \end{center}
@@ -351,7 +351,6 @@ frame=single,
 \pagestyle{empty} % Suppresses page numbers for all general audience abstract pages.
   \begin{center}
   \noindent {\textbf{\Large \@title}} \\[24pt]
-  \noindent{\large \@author} \\[24pt]
   \textbf{\large GENERAL AUDIENCE ABSTRACT}
   \end{center}
   
@@ -381,9 +380,9 @@ frame=single,
 
 %This is where the main magic happens.
 \renewcommand\maketitle{
-  \setcounter{page}{0}
-  \pdfbookmark[1]{Titlepage}{titlepage}
-  \titlepage
+  % \setcounter{page}{0}
+  % \pdfbookmark[1]{Titlepage}{titlepage}
+  % \titlepage
   \ifbool{@abs}{
     \pdfbookmark[1]{Abstract}{abstract}
     \abspage}{}
