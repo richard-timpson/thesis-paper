@@ -49,7 +49,13 @@ The original MSE used to train \vnet{} (which we call \vnet{} MSE) assumed that 
 % al for alpha
 \newcommand{\al}[1]{\alpha_{#1}}
 
-We define the output vector as an 11 dimensional vector $\rvec{v} = \{t, v, d, a, p_0, p_1, p_2, p_3, p_4, p_5, p_6\}$ where $t$, $v$, $d$, and $a$ represent tempo, velocity, deviation, and articulation respectively, and $p_i$ represents a single component of the pedal. For a predicted output vector $\vn$ and the target output vector $\vh$, \vnetf{} MSE loss is $MSE(\vn, \vh) = \frac{1}{n}\sum_{i=1}^{n}(\vn_i - \vh_i)^2$. This can also be re-written as $MSE(\vn, \vh) = \frac{1}{11}[\df{t} + \df{v} + \df{d} + \df{a} + \sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2]$. We introduce 5 different weight values: $\al{t}, \al{v}, \al{d}, \al{a}$ and $\al{p}$. Our weighted MSE loss is defined as $W_{MSE}(\vn, \vh) = \frac{1}{\al{t} + \al{v} + \al{d} + \al{a} + \al{p}}[\al{t}\df{t} + \al{v}\df{v} + \al{d}\df{d} + \al{a}\df{a} + \al{p}\sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2 ]$. \vnetf{} MSE can be seen as the weighted MSE with $\al{t}, \al{v}, \al{d}, \al{a} = 1$, and $\al{p} = 7$. 
+We define the output vector as an 11 dimensional vector $\rvec{v} = \{t, v, d, a, p_0, p_1, p_2, p_3, p_4, p_5, p_6\}$ where $t$, $v$, $d$, and $a$ represent tempo, velocity, deviation, and articulation respectively, and $p_i$ represents a single component of the pedal. For a predicted output vector $\vn$ and the target output vector $\vh$, \vnetf{} MSE loss is 
+%
+\begin{align*}
+MSE(\vn, \vh) = \frac{1}{n}\sum_{i=1}^{n}(\vn_i - \vh_i)^2.
+\end{align*}
+%
+This can also be re-written as $MSE(\vn, \vh) = \frac{1}{11}[\df{t} + \df{v} + \df{d} + \df{a} + \sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2]$. We introduce 5 different weight values: $\al{t}, \al{v}, \al{d}, \al{a}$ and $\al{p}$. Our weighted MSE loss is defined as $W_{MSE}(\vn, \vh) = \frac{1}{\al{t} + \al{v} + \al{d} + \al{a} + \al{p}}[\al{t}\df{t} + \al{v}\df{v} + \al{d}\df{d} + \al{a}\df{a} + \al{p}\sum_{i=1}^{7}(\vn_{p_{i}} - \vh_{p_{i}})^2 ]$. \vnetf{} MSE can be seen as the weighted MSE with $\al{t}, \al{v}, \al{d}, \al{a} = 1$, and $\al{p} = 7$. 
 
 This loss formulation shows the heavy bias towards the pedal feature. Is this is the right way to conceptualize what a `good' performance is? Would a different configuration of the expressive feature weights lead to a better outcome? Answering such questions in a straightforward and `objective' according to a quantitative metric is not plausible with our weighted MSE. Every different configuration of weights changes the evaluation metric itself, and therefore any direct metric comparison across experiments is meaningless. Knowing this, we continued to experiment with different weight configurations relying on our qualitative evaluation to determine performance quality. We present our observations from listening to model performances, with and without the change in MSE. 
 
