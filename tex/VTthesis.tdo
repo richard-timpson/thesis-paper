@@ -1,17 +1,8 @@
-\contentsline {todo}{Figure: Image that shows different components of musical generation process}{7}{figure.caption.7}%
-\contentsline {todo}{Figure: Image that shows a sample score with colorized annotations that show the different hierarchical levels}{8}{figure.caption.8}%
-\contentsline {todo}{Make sure to have some background information on articulation in the appendix}{8}{section*.9}%
-\contentsline {todo}{add a reference, graphic, and sample performance}{10}{section*.10}%
-\contentsline {todo}{Figure: Show why score to performance alignment matching is necessary.}{12}{figure.caption.11}%
-\contentsline {todo}{Rework this section to fit with new paper outline. Need to forward reference models instead of back reference}{12}{section*.12}%
-\contentsline {todo}{May need more exploration in caption}{28}{section*.17}%
-\contentsline {todo}{Figure: show some of the rules from the KTH paper in either a table or a figure}{29}{figure.caption.18}%
-\contentsline {todo}{add figure}{32}{section*.20}%
-\contentsline {todo}{An introduction of deadpan performances might work better in qualitative evaluation background}{36}{section*.24}%
-\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{37}{section*.25}%
-\contentsline {todo}{possibly add figure}{38}{section*.26}%
-\contentsline {todo}{Figure: Our model architecture. Show the standard transformer layers with a simple decoder layer on top}{43}{figure.caption.27}%
-\contentsline {todo}{Figure: Images that show the difference of 3 performances, all of the same composition. One performance should have really bad pedal, another should have mediocre pedal, and the other (a human performance) should have natural pedal. Will be gathered with screenshots from Logic Pro}{51}{figure.caption.30}%
-\contentsline {todo}{Create or find visualization}{64}{section*.33}%
-\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{65}{section*.34}%
-\contentsline {todo}{create or find visualization}{65}{section*.35}%
+\contentsline {todo}{May need more exploration in caption}{29}{section*.14}%
+\contentsline {todo}{add figure}{33}{section*.17}%
+\contentsline {todo}{An introduction of deadpan performances might work better in qualitative evaluation background}{38}{section*.21}%
+\contentsline {todo}{Add section that talks about the features used for virtuosoNet}{39}{section*.22}%
+\contentsline {todo}{possibly add figure}{39}{section*.23}%
+\contentsline {todo}{Create or find visualization}{67}{section*.30}%
+\contentsline {todo}{Find a more intuitive way to explain this. The piano roll explanation and visualization may work better}{68}{section*.31}%
+\contentsline {todo}{create or find visualization}{68}{section*.32}%

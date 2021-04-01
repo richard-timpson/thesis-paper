@@ -30,6 +30,7 @@
 \usepackage{numprint}
 \usepackage{siunitx}
 \usepackage{array}
+\usepackage{pdfpages}
 % \setuptodonotes{textwidth=0.5}
 
 \setlength{\marginparwidth}{2cm}
@@ -37,7 +38,7 @@
 \NewDocumentCommand{\vstodo}{O{} m}{\todo[author=Vivek #1]{#2}}
 
 % Title of your thesis
-\title{An Empirical Error Study of Expressive Musical Performance with Transformer}
+\title{Modeling Expressive Musical Performance with Transformers: An Empirical Error Study}
 % \title{Modeling Expressive Musical Performance with Transformers: An Empirical Error Study}
 % \title{Modeling Expressive Musical Performance with Transformers}
 
@@ -45,7 +46,7 @@
 \keywords{Some Keywords, Subject matter, etc.}
 
 % Your name, including middle initial(s)
-\author{Your Name}
+\author{Richard W Timpson}
 
 % Change this to your program, e.g. Physics, Civil Engineering, etc.
 \program{Your Department} 
@@ -70,7 +71,6 @@
 \fourthreader{Last Committee}
 
 % The dedication and acknowledgement pages are optional. Comment them out to remove them.
-\dedication{Dedicated to Virginia Tech.}
 \acknowledge{\input{contents/acknowledgement}}
  
 
@@ -78,11 +78,16 @@
 \abstract{Give a brief description of your thesis here.}
 \abstract{\input{contents/abstract}}
 
+\graphicspath{{tex/figs/}}
+
+
+
 % The general audience abstract is required. There are currently no word limits.
 
 \begin{document}
 % The following lines set up the front matter of your thesis or dissertation and are required to ensure proper formatting per the VT ETD standards. 
   \frontmatter
+  \includepdf[pages=-]{contents/SampleCoverPage.pdf}
   \maketitle
   \tableofcontents
 
@@ -94,6 +99,27 @@
 
 % The following sets up the document for the main part of the thesis or dissertation. Do not comment out or remove this line.
 	\mainmatter
+
+	% Adding table macros here that are used in various different sections
+	% model configuration
+	\newcommand{\nep}{$N_{id}$}
+	\newcommand{\mn}{$M$} % mn for 'model name'
+	\newcommand{\nl}{$L$} % nl: num layers
+	\newcommand{\dhid}{$d_{hid}$} % dhid: dimension hidden size
+	\newcommand{\drop}{$D$} % D: Dropout
+	\newcommand{\lr}{$LR$} % LR: Learning Rate
+	\newcommand{\clip}{$C$} % C: gradient clip
+	\newcommand{\nh}{$H$} % nh: num heads
+
+	% Expressive features
+	\newcommand{\temp}{$t$}
+	\newcommand{\vel}{$v$}
+	\newcommand{\dev}{$d$}
+	\newcommand{\art}{$a$}
+	\newcommand{\ped}{$p$}
+
+	\newcommand{\tm}[1]{$T_{N_{#1}}$}
+
 
 	%now go ahead and start writing your thesis
 	\listoftodos
