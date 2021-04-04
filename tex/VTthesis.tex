@@ -32,6 +32,7 @@
 \usepackage{array}
 \usepackage{pdfpages}
 \usepackage{unicode-math}
+\usepackage{float}
 % \setuptodonotes{textwidth=0.5}
 
 \setlength{\marginparwidth}{2cm}
@@ -121,9 +122,8 @@
 
 	\newcommand{\tm}[1]{$T_{N_{#1}}$}
 
-
+	\pagestyle{headings}
 	%now go ahead and start writing your thesis
-	\listoftodos
 	\input{contents/ch1_intro}
 	\input{contents/ch2}
 	\input{contents/ch3}
@@ -141,7 +141,7 @@
 	%\bibliographystyle{plainnat}   
 
 	% This formats the chapter name to appendix to properly define the headers:
-	\input{contents/appendix}
+	% \input{contents/appendix}
     \bibliographystyle{plainnat}  
     \bibliography{reference/ref}
 \end{document}
