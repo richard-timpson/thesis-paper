@@ -76,7 +76,7 @@
 %Use the following code to disable ligatures:
 \usepackage{fontspec}
 \usepackage{tabularx}
-\setmainfont[Ligatures={NoCommon,NoRare},SmallCapsFont=TeX Gyre Termes,SmallCapsFeatures={Letters=SmallCaps}]{Latin Modern Roman}
+\setmainfont[Ligatures={NoCommon,NoRare},SmallCapsFont=TeX Gyre Termes,SmallCapsFeatures={Letters=SmallCaps},ItalicFeatures={Scale=MatchLowercase}]{Latin Modern Roman}
 \usepackage{enumitem}
 %package required for abbreviations page
 \usepackage[intoc]{nomencl}

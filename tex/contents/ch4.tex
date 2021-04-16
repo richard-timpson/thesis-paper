@@ -1,5 +1,5 @@
 \chapter{Music Generation Models}\label{ch:ch4}
-As in other fields, state-of-the-art models in music generation are mostly comprised of ANN models. Some music generation tasks have already seen a Transformer application, while others (such as expressive performance generation) have not. We will provide an overview of the existing state-of-the-art in EMP generation and transformer-based music generation models. We also give some background into the data representation and feature engineering of each model. 
+State-of-the-art models in music generation are mostly comprised of ANN models. Some music generation tasks have already seen a Transformer application, while others (such as expressive performance generation) have not. We will provide an overview of the existing state-of-the-art in EMP generation and transformer-based music generation models. We also give some background into the data representation and feature engineering of each model. 
 
 \section{Existing Expressive Musical Performance Generation Models}\label{sec:emp_generation_models}
 EMP generation models fit into one of two categories, rule-based and data-based. Rule-based systems use hardcoded rules derived using pre-existing musical knowledge and empirical studies involving human cognition. Data-driven models rely on ML methods and use an existing dataset of human performances as a guide to learn the mapping between score features and performance features. Data-based models most commonly use sequential probabilistic or non-linear ANN methods~\cite{cancino2018computational}, although there has been previous work with linear and non-sequential modeling.~\citet{cancino2018computational} give a complete overview of all relevant EMP generation models. We describe a few models, both rule and data-based, which are pertinent to our work. 
@@ -8,7 +8,7 @@ EMP generation models fit into one of two categories, rule-based and data-based.
 The KTH system~\cite{friberg2006overview} sits at the center of rule-based EMP models and created the foundation for all EMP generation models. Development of the KTH system started in the 1980s and has continued well into the 21st century. The KTH system's initial methodology defined rules relating to musical composition structure and how it affects a resulting performance. The first set of rules applied specifically to singing synthesis and were later adapted to general musical performance. 
 
 Since then, there have been two general methods in the continued development of the KTH rule system. The first is that of \emph{analysis-by-synthesis}, which involved using the rules to synthesize musical performances presented to human listeners (both professional and non-professional), gathering listening feedback, and then using this feedback to modify the rules where needed. The second was an \emph{analysis-by-measurement} method. This method uses direct computation to evaluate a computational generated performance by comparing it with an existing real performance%
-\footnote{This evaluation method is consistent with the data-driven approaches but can generally apply to any model. Data-driven models use the performance data to directly build the model, whereas real performance data in the KTH system is for evaluation purposes only. Any further updates to the model still rely on a hardcoded set of rules}. The \emph{analysis-by-synthesis} and \emph{analysis-by-measurement} correspond to qualitative and quantitative evaluation methods, respectively. Example rules from the KTH system are found in figure \ref{tab:kth-rules}.
+\footnote{This evaluation method is consistent with the data-driven approaches but can generally apply to any model. Data-driven models use the performance data to directly build the model, whereas real performance data in the KTH system is for evaluation purposes only. Any further updates to the model still rely on a hardcoded set of rules.}. The \emph{analysis-by-synthesis} and \emph{analysis-by-measurement} correspond to qualitative and quantitative evaluation methods, respectively. Example rules from the KTH system are found in figure \ref{tab:kth-rules}.
 
 
 \begin{table}
@@ -38,7 +38,7 @@ Since then, there have been two general methods in the continued development of 
     \end{center}
 \end{table}
 
-To our knowledge, the KTH rule-based system is the first sophisticated computational model for generating expressive performance. The explicitly defined rules in the KTH system may be those we expect a data-based model to learn.~\citet{widmer2002machine} shows that data-driven methods learn some rules consistent with the KTH rules and some that aren't. Model evaluation's problematic nature may describe this phenomenon, as it is not straightforward how to determine which rules are more ``correct'' than others. Nevertheless, the KTH rule system has been an essential milestone in the evolution of EMP generation. 
+To our knowledge, the KTH rule-based system is the first sophisticated computational model for generating expressive performance. The explicitly defined rules in the KTH system may be those we expect a data-based model to learn.~\citet{widmer2002machine} shows that data-driven methods learn some rules consistent with the KTH rules and some that are not. Model evaluation's problematic nature may describe this phenomenon, as it is not straightforward how to determine which rules are more ``correct'' than others. Nevertheless, the KTH rule system has been an essential milestone in the evolution of EMP generation. 
 
 \subsection{Data-Based EMP Models: Basis Function Models}\label{sec:data-based}
 The Basis Function Modeling (BM) framework for EMP describes the complete end-to-end process involving musical performance generation and analysis. This end-to-end process includes mathematical definitions of score and performance features, computational models for EMP, and the data processing necessary to convert MusicxML to input score features and output performance features to MIDI.%
@@ -58,7 +58,7 @@ will represent the pitch of a given note as the numerical MIDI pitch. The basis 
 \begin{align*}
 \varphi_{\mnot{f}} (n_i) = forte(n_i)   
 \end{align*}
-where $forte(n_i)$ returns 1 if the score element is marked with $\mnot{f}$, and 0 if it doesn't. 
+where $forte(n_i)$ returns 1 if the score element is marked with $\mnot{f}$, and 0 if it does not. 
 
 Similarly to basis functions, the BM framework defines \emph{expressive parameters} which are mathematical encodings of information taken from a performance matched to a score. An \emph{expressive encoding function} $y: \mperf \rightarrow \mathbb{R}$ will encode an event in a matched performance into an \emph{expressive parameter}, or performance feature. The value of each parameter corresponding to a score element $x_{i} \in \Omega$ given a matched performance $\mperf$ is denoted as $y(x_i \vert \mperf) = t_i$ where $t_i \in \mathbb{R}$. Example encoding functions are 
 \begin{align*}
@@ -66,42 +66,35 @@ y_{\textrm{dyn}}(n_i \vert \mperf) = \textrm{MIDI}_{\textrm{vel}}(n_i) \textrm{ 
 \end{align*}
 which represent expressive dynamics as MIDI velocity and expressive tempo as a local measure of bpm, respectively. 
 
-% With this definition of score basis fuctions and expressive encoding functions, the BM framework defines a score representation model $F = \{\varphi_1, ..., \varphi_m\}$ and a performance representation model $Y = \{y_1, ..., y_{N_y}\}$ which both contain a set of functions used to define the score and performance encoding. The score representation model can then be used to calculate the score features for every element $x_i \in \Omega$. This score representation $\Phi$ is a real valued matrix in $\mathbb{R}^{N \times M}$, where the i-th index indicates a single element of the score and the j-th index represents the value of a single score basis function for that score element. The performance representation model can render a performance representation $T$ which is calculated by running every score element along with a match performed through each expressive encoding function as 
-% \begin{align*}
-% Y(x_i \vert \mperf) = (y_1(x_i \vert \mperf), ... ,y_{N_y}(x_i \vert \mperf)).
-% \end{align*}
-% The performance representation $T$ is a real valued matrix in $\mathbb{R}^{N \times N_y}$ and composed of $N$ vectors defined by $Y(x_i \vert \mperf)$. 
+There are many possible definitions for both basis and expressive encoding functions. Here we give some example expressive encoding functions which are defined in the first iteration of the BM framework and provide the foundation for feature set we use. Refer to~\citet{eduardo2018computational} for a full list of both basis functions and expressive encoding functions
 
-There are many possible definitions for both basis and expressive encoding functions. Here we give some example functions used in the first iteration of the BM framework -- refer to~\citet{eduardo2018computational} for a full list. 
+% \textbf{Basis Functions}
 
-\textbf{Basis Functions}
+% % pfunc for pitch function
+% \newcommand{\pfunc}[1]{\varphi_{\textrm{pitch}}^#1(n_i)}
+% \newcommand{\pfuncnorm}{\varphi_{\textrm{pitch}}(n_i)}
+% % midip for midi pithc
+% \newcommand{\midip}{\textrm{pitch}}
+% \begin{itemize}
+%     \item \textbf{Polynomial Pitch Model}: This model is presented by~\citet{grachten2012linear} and describes the dependency of expressive dynamics (MIDI velocity) on pitch. This model defines three different pitch functions. 
+%     \begin{align*}
+%     \pfuncnorm{} = \frac{\midip (n_i)}{127} \quad \pfunc{2} = \left(\frac{\midip(n_i)}{127}\right)^2 \quad \pfunc{3} = \left(\frac{\midip (n_i)}{127}\right)^3    
+%     \end{align*}
+%     \item \textbf{Dynamics Markings}: These are functions which encode dynamics markings such as \mnot{p}, \mnot{f}, and \mnot{crescendo}. There are three different types of dynamics encoding functions. The first is an impulse function  which is a binary indicator of a dynamic marking for a single note (this applies to single note marking such as an accent \wedge). The second is a ramp function which gradually increases or decreases a value from note to note (useful for \mnot{crescendo} or \mnot{decresenco} markings which apply to a specified number of notes). The last is a constant function which is either on or off for a set of notes at a time (useful for markings such as \mnot{p} or \mnot{f} which apply to a group of notes at a time). Each dynamic function is shown graphically in figure \ref{fig:dynamics_functions}.
+%     \item \textbf{Inter-Onset-Interval (IOI)}: This includes a total of six basis functions which include the difference in onset times of a group of notes belonging to a particular note onset $o_i$ an its surrounding note onsets. The IOI is calculated for the onsets between $(i - 2, i-3), (i-1, i-2), (i, i-1), (i, i+1), (i+1, i+2), \textrm{ and } (i+2, i+3)$. These functions provide context for the local tempo structure of the composition. 
+%     \item \textbf{Duration}: A basis function that encodes the notated duration of a single note. 
+% \end{itemize}
 
-% pfunc for pitch function
-\newcommand{\pfunc}[1]{\varphi_{\textrm{pitch}}^#1(n_i)}
-\newcommand{\pfuncnorm}{\varphi_{\textrm{pitch}}(n_i)}
-% midip for midi pithc
-\newcommand{\midip}{\textrm{pitch}}
-\begin{itemize}
-    \item \textbf{Polynomial Pitch Model}: This model is presented by~\citet{grachten2012linear} and describes the dependency of expressive dynamics (MIDI velocity) on pitch. This model defines three different pitch functions. 
-    \begin{align*}
-    \pfuncnorm{} = \frac{\midip (n_i)}{127} \quad \pfunc{2} = \left(\frac{\midip(n_i)}{127}\right)^2 \quad \pfunc{3} = \left(\frac{\midip (n_i)}{127}\right)^3    
-    \end{align*}
-    \item \textbf{Dynamics Markings}: These are functions which encode dynamics markings such as \mnot{p}, \mnot{f}, and \mnot{crescendo}. There are three different types of dynamics encoding functions. The first is an impulse function  which is a binary indicator of a dynamic marking for a single note (this applies to single note marking such as an accent \wedge). The second is a ramp function which gradually increases or decreases a value from note to note (useful for \mnot{crescendo} or \mnot{decresenco} markings which apply to a specified number of notes). The last is a constant function which is either on or off for a set of notes at a time (useful for markings such as \mnot{p} or \mnot{f} which apply to a group of notes at a time). Each dynamic function is shown graphically in figure \ref{fig:dynamics_functions}.
-    \item \textbf{Inter-Onset-Interval (IOI)}: This includes a total of six basis functions which include the difference in onset times of a group of notes belonging to a particular note onset $o_i$ an its surrounding note onsets. The IOI is calculated for the onsets between $(i - 2, i-3), (i-1, i-2), (i, i-1), (i, i+1), (i+1, i+2), \textrm{ and } (i+2, i+3)$. These functions provide context for the local tempo structure of the composition. 
-    \item \textbf{Duration}: A basis function that encodes the notated duration of a single note. 
-\end{itemize}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{figs/ch4/dynamics_functions.png}
-    \caption{An illustration of the different dynamics basis functions, taken from~\citet{eduardo2018computational}. The function describing \mnot{p} is a constant function, which is activated for every note until the presence of a different dynamic marking, \mnot{f}. The function describing the crescendo (the second from the top) is a ramp function and gradually increases until the crescendo finishes. The function describing the accent (third from the top) is an impulse function and holds a value of 1 for the note which contains the accent mark. }
-    \label{fig:dynamics_functions}
-\end{figure}
-
-\textbf{Expressive Encoding Functions}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{figs/ch4/dynamics_functions.png}
+%     \caption{An illustration of the different dynamics basis functions, taken from~\citet{eduardo2018computational}. The function describing \mnot{p} is a constant function, which is activated for every note until the presence of a different dynamic marking, \mnot{f}. The function describing the crescendo (the second from the top) is a ramp function and gradually increases until the crescendo finishes. The function describing the accent (third from the top) is an impulse function and holds a value of 1 for the note which contains the accent mark. }
+%     \label{fig:dynamics_functions}
+% \end{figure}
 
 \newcommand{\iois}{\textrm{IOI}_{o(n_i)}^{score}}
 \newcommand{\ioip}{\textrm{IOI}_{o(n_i)}^{perf}}
+\textbf{Expressive Encoding Functions}
 \begin{itemize}
     \item \textbf{MIDI Velocity}: This encoding function uses the recorded hammer-velocities of the performed notes as a proxy for expressive dynamics. The loudness of a note is estimated as a normalized MIDI velocity value. 
     \begin{align*}
@@ -129,7 +122,7 @@ There are many possible definitions for both basis and expressive encoding funct
 \end{itemize}
 
 \subsubsection{Models}
-BM framework computational models first started as simple linear non-sequential models that learned the relationship between a set of defined basis functions and a single expressive parameter, such as MIDI velocity. This version of the BM models each expressive parameter independently from all others and implies that one expressive parameter's interpretation will not affect the other. Although this is not necessarily the case in actual performance \footnote{For example, the effect of a \mnot{crescendo} marking may affect both the dynamics and the tempo at the same time}, it is a simplifying mathematical assumption that makes the models' development and interpretation simpler. Both standard least squares regression and a probabilistic Bayesian approach are used to model the linear relationship. 
+BM framework computational models first started as simple linear non-sequential models that learned the relationship between a set of defined basis functions and a single expressive parameter, such as MIDI velocity. This version of the BM models each expressive parameter independently from all others and implies that one expressive parameter's interpretation will not affect the other. Although this is not necessarily the case in actual performance\footnote{For example, the effect of a \mnot{crescendo} marking may affect both the dynamics and the tempo at the same time.}, it is a simplifying mathematical assumption that makes the models' development and interpretation simpler. Both standard least squares regression and a probabilistic Bayesian approach are used to model the linear relationship. 
 
 The BM framework later introduced non-linear and sequential models, both as ANNs. A standard Feed-Forward Neural Network (FFNN) added the capability for non-linear modeling. This model showed an increase in both the goodness-of-fit and predictive accuracy over the linear model. A standard RNN was used to implement the sequential model with features where the time-dependent and sequential nature of music was relevant. Used in conjunction with a FFNN, this model performed the best relative to all other models.
 
@@ -151,9 +144,9 @@ The next iteration of \vnet{} builds from the initial HAN layers but also uses a
 
 The latest and best-performing version of \vnet{}~\cite{jeong2019virtuosonet} returns to the HAN only architecture. It uses an LSTM based HAN network for every different component of the architecture, explicitly defining the hierarchical models according to various musical boundaries, including note, beat, and measure levels. This model adds additional more abstract hierarchical models that exist to create better structure at the metrical level and preserve patterns across the composition's mid-level structures.
 
-Both the ISGN~\cite{jeong2019graph} and HAN~\cite{jeong2019virtuosonet} version of \vnet{} are trained using the full KAIST dataset and use the same evaluation methods; MSE for the quantitative evaluation and listening tests for the qualitative. The final version of HAN reports better MSE metrics than the ISGN. The qualitative evaluation shows that both the ISGN and HAN perform better than baseline models and better than a ``deadpan'' performance. The HAN version's qualitative evaluation also includes a comparison between the HAN and the publicly available version of the BM framework model \footnote{The website for the BM model can be found \href{here}{https://basismixer.cp.jku.at/static/app.html}. At the time of this writing, the website is currently unavailable}. 
+Both the ISGN~\cite{jeong2019graph} and HAN~\cite{jeong2019virtuosonet} version of \vnet{} are trained using the full KAIST dataset and use the same evaluation methods; MSE for the quantitative evaluation and listening tests for the qualitative. The final version of HAN reports better MSE metrics than the ISGN. The qualitative evaluation shows that both the ISGN and HAN perform better than baseline models and better than a ``deadpan'' performance. The HAN version's qualitative evaluation also includes a comparison between the HAN and the publicly available version of the BM framework model\footnote{The website for the BM model can be found \href{here}{https://basismixer.cp.jku.at/static/app.html}. At the time of this writing, the website is currently unavailable.}. 
 
-The results in~\cite{jeong2019virtuosonet} show that the HAN performs better than the BM model. Many plausible reasons may explain the difference in results other than the HAN being a superior model to the BM. These include differences in the training data for both models, a bias of the qualitative method towards the HAN, and the fact that the listening test members' opinion doesn't necessarily imply one model being ``superior'' to another. However, given the results presented by~\citet{jeong2019virtuosonet}, we will assume that this version of the HAN represents the current ``state-of-the-art'' in the field. 
+The results of~\citet{jeong2019virtuosonet} show that the HAN performs better than the BM model. Many plausible reasons may explain the difference in results other than the HAN being a superior model to the BM. These include differences in the training data for both models, a bias of the qualitative method towards the HAN, and the fact that the listening test members' opinion does not necessarily imply one model being ``superior'' to another. However, given the results presented by~\citet{jeong2019virtuosonet}, we will assume that this version of the HAN represents the current ``state-of-the-art'' in the field. 
 
 \section{Music Generation with Transformers}
 The Transformer has seen some application in music generation. Such models use a discrete representation of music as a sequence of events with highly sparse encoding vectors. This representation is consistent with the word embeddings used to train most NLP models and so has a natural extension in Transformers, designed with language data in mind. 
@@ -165,10 +158,10 @@ Music Transformer uses the original Transformer architecture and implementation 
 The Transformer architecture with the relative positional embedding outperforms other baseline models, including the LSTM based PerformanceRNN. Qualitative evaluation shows that the Music Transformer generates performance with much better long term structure and overall musical cohesiveness than the performances from the PerformanceRNN%
 \footnote{Sample performances for both the \href{https://magenta.tensorflow.org/performance-rnn}{PerformanceRNN} and \href{https://magenta.tensorflow.org/music-transformer}{Music Transformer} are available online from the Magenta Research group of Google AI.}. This result is consistent with the observation that attention has a better memory than the hidden state of an RNN cell. 
 
-Building from the Music Transformer, Open AI introduced MuseNet~\cite{payne_2020}. MuseNet is both philosophically and architecturally similar to GPT. It uses an enormous decoder-only Transformer model and trains it on a massive amount of data to build a model capable of generating novel music across many different domains. MuseNet is trained using only MIDI data gathered from various internet sources (including the MAESTRO dataset) and uses an event-based token representation similar to the Music Transformer. In contrast to the Music Transformer, which only operates with western classical solo piano music, MuseNet can generate music across a variety of genres in multiple instruments. Open AI has not directly released any research results comparing the benchmark results of MuseNet to other models. Still, it is evident from listening to MuseNet samples\footnote{\url{https://openai.com/blog/musenet/}} that it generates high-quality music. 
+Building from the Music Transformer, OpenAI introduced MuseNet~\cite{payne_2020}. MuseNet is both philosophically and architecturally similar to GPT. It uses an enormous decoder-only Transformer model and trains it on a massive amount of data to build a model capable of generating novel music across many different domains. MuseNet is trained using only MIDI data gathered from various internet sources (including the MAESTRO dataset) and uses an event-based token representation similar to the Music Transformer. In contrast to the Music Transformer, which only operates with western classical solo piano music, MuseNet can generate music across a variety of genres in multiple instruments. OpenAI has not directly released any research results comparing the benchmark results of MuseNet to other models. Still, it is evident from listening to MuseNet samples\footnote{\url{https://openai.com/blog/musenet/}.} that it generates high-quality music. 
 
-Open AI also released another music generation model which uses Transformers, JukeBox~\cite{dhariwal2020jukebox}, that deals directly in the audio domain. The choice to directly model audio is motivated by the fact that symbolic data forms don't contain enough information to capture musical performance's subtleties across a variety of different instruments% 
-\footnote{It is also motivated by the abundance of audio data compared to symbolic, which we discussed in chapter \ref{ch:ch2}}. JukeBox is comprised of a Vector Quantized Variational AutoEncoder (VQ-VAE), which learns to encode the audio data into a low-dimensional representation, and a Transformer model similar to MuseNet, which uses the encoding to generate new music. Although the samples generated by JukeBox are impressive in their sound quality and overall musical cohesiveness, much work is still needed in the direct audio generation domain to produce audio of high enough quality that it competes with human productions. 
+OpenAI also released another music generation model which uses Transformers, JukeBox~\cite{dhariwal2020jukebox}, that deals directly in the audio domain. The choice to directly model audio is motivated by the fact that symbolic data forms do not contain enough information to capture musical performance's subtleties across a variety of different instruments% 
+\footnote{It is also motivated by the abundance of audio data compared to symbolic, which we discussed in chapter \ref{ch:ch2}.}. JukeBox is comprised of a Vector Quantized Variational AutoEncoder (VQ-VAE), which learns to encode the audio data into a low-dimensional representation, and a Transformer model similar to MuseNet, which uses the encoding to generate new music. Although the samples generated by JukeBox are impressive in their sound quality and overall musical cohesiveness, much work is still needed in the direct audio generation domain to produce audio of high enough quality that it competes with human productions. 
 
 
 
